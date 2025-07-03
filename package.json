@@ -1,0 +1,20 @@
+{
+  "name": "own_backend_software",
+  "version": "1.0.0",
+  "description": "Making own Auth system for all frontend projects which need auth system and also mail service",
+  "license": "ISC",
+  "author": "SHUBHANKAR MARATHE",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.16.1",
+    "nodemailer": "^7.0.4"
+  }
+}
