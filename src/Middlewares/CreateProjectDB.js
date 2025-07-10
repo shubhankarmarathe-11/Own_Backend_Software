@@ -8,6 +8,8 @@ const CreateDataBase = async (
       Username: false,
       MobileNo: false,
       Address: false,
+    },
+    ExtraServices: {
       MailService: false,
     },
   }
@@ -22,6 +24,7 @@ const CreateDataBase = async (
         ProjectName: options.ProjectName,
         ProjectPreferences: options.ProjectPref,
         ExtraFields: options.ExtraField,
+        ExtraServices: options.ExtraServices,
       });
       CreateTable.save();
 

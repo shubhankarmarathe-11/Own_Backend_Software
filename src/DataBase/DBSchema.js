@@ -24,6 +24,13 @@ const ProjectSchema = new mongoose.Schema(
         Username: false,
         MobileNo: false,
         Address: false,
+      },
+    },
+
+    ExtraServices: {
+      type: {},
+      required: true,
+      default: {
         MailService: false,
       },
     },

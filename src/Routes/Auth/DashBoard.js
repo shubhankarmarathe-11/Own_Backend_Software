@@ -14,6 +14,7 @@ ConnectProject.post("/api/CreateProject", async (req, res) => {
       ProjectName: Options.ProjectName,
       ProjectPref: Options.ProjectPref,
       ExtraField: Options.ExtraField,
+      ExtraServices: Options.ExtraServices,
     });
     console.log(TableCreation);
 
