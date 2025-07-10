@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { CreateDataBase } from "../Middlewares/CreateProjectDB.js";
+import { CreateDataBase } from "../../Middlewares/CreateProjectDB.js";
 
 const ConnectProject = express.Router();
 

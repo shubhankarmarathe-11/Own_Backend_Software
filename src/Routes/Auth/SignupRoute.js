@@ -1,15 +1,27 @@
 import express from "express";
-import { ProjectTable, ProjectDataTable } from "../DataBase/DBSchema.js";
-import { SignupPreCheck } from "../Middlewares/SignupMethods.js";
+import { ProjectTable, ProjectDataTable } from "../../DataBase/DBSchema.js";
+import { SignupPreCheck } from "../../Middlewares/SignupMethods.js";
 import {
   EmailCheck,
   MobileNo,
   PasswordCheck,
   CheckPref,
-} from "../Middlewares/SignupMiddlewares.js";
+} from "../../Middlewares/SignupMiddlewares.js";
 import bcrypt from "bcryptjs";
+import { SignNewToken } from "../../JWT/SignToken.js";
 
 const SignupRoute = express.Router();
+
+const generateCustomId = () => {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$@#%&";
+  let result = "";
+  const charactersLength = characters.length;
+  for (let i = 0; i < 16; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
 
 SignupRoute.post(
   "/api/Signup",
@@ -29,7 +41,10 @@ SignupRoute.post(
 
       // By default Options
 
-      let PreCheck = await SignupPreCheck(Options, findAuthData);
+      let GeneratedID = await generateCustomId();
+      console.log(GeneratedID);
+
+      let PreCheck = await SignupPreCheck(Options, findAuthData, GeneratedID);
 
       if (PreCheck == 200) {
         Options.ProjectPreferences.Password = await bcrypt.hash(
@@ -37,10 +52,17 @@ SignupRoute.post(
           10
         );
         await ProjectDataTable.findByIdAndUpdate(findProject.ProjectData[0], {
-          $push: { AuthData: Options },
+          $push: {
+            AuthData: {
+              id: String(GeneratedID),
+              ProjectPreferences: Options.ProjectPreferences,
+              ExtraFields: Options.ExtraFields,
+            },
+          },
         });
 
-        res.status(200).send("Account Created ....");
+        let Token = await SignNewToken(GeneratedID);
+        res.status(200).send(`${Token}`);
       } else if (PreCheck == 409) {
         res.status(409).send("Please Choose Another Email or UserName ... ");
       } else {

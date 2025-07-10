@@ -1,0 +1,12 @@
+1. is active Route - 
+    Which Configure or verify token and return true
+
+2. CURD Route - 
+    1. Create new collection in mongodb for storing data
+    2. which include userid wise data 
+    3. to store we use crypto encryption
+    4. after retriving it we decrypt it and send to frontend
+
+3. Tesing all possible condition - 
+    1. To Idetify all bugs and remove it
+    2. test latency and enhance it with modifications

@@ -2,12 +2,21 @@ import express from "express";
 import cors from "cors";
 import mongoose, { Mongoose } from "mongoose";
 import bodyParser from "body-parser";
-import { ConnectProject } from "./src/Routes/DashBoard.js";
-import { SignupRoute } from "./src/Routes/SignupRoute.js";
-import { Login } from "./src/Routes/LoginRoute.js";
+import {
+  ConnectProject,
+  IsActiveRoute,
+  Login,
+  SignupRoute,
+} from "./src/Routes/Auth/ExportAuthRoutes.js";
+
+import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
+
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,14 +29,23 @@ const Dbconnect = async () => {
 
 Dbconnect();
 
+// Auth Routes
+
 app.use(ConnectProject);
 app.use(SignupRoute);
 app.use(Login);
+app.use(IsActiveRoute);
+
+//Email Route
+
+app.use(EmailServiceRoute);
+
+// CURD Operation Routes
 
 app.get("/", (req, res) => {
   res.send("Working");
 });
 
 app.listen(PORT, () => {
-  console.log("Server Started at 3000");
+  console.log(`Server Started at ${PORT}`);
 });
