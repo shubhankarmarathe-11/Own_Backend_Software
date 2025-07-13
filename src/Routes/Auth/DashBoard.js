@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import { CreateDataBase } from "../../Middlewares/CreateProjectDB.js";
+import { ProjectTable, ProjectDataTable } from "../../DataBase/DBSchema.js";
 
 const ConnectProject = express.Router();
 
@@ -18,13 +19,30 @@ ConnectProject.post("/api/CreateProject", async (req, res) => {
     });
     console.log(TableCreation);
 
-    if (TableCreation) {
-      res.status(200).send("New Project Created .... ");
+    if (TableCreation.status) {
+      res.status(200).send(`${TableCreation.ProjectID}`);
     } else {
       res.status(409).send("Please Select another Project Name ....");
     }
   } catch (error) {
     res.status(400).send("Please try again ....");
+  }
+});
+
+ConnectProject.post("/api/DeleteProject", async (req, res) => {
+  try {
+    let { Options } = req.body;
+
+    let FindProj = await ProjectTable.findById(Options.ProjectID);
+    let FindDataDBToDelete = await ProjectDataTable.findByIdAndDelete(
+      FindProj.ProjectData[0]._id
+    );
+
+    let FindAndDelete = await ProjectTable.findByIdAndDelete(Options.ProjectID);
+
+    res.status(200).send("Project Deleted ... ");
+  } catch (error) {
+    res.status(400).send("Please try Again ...");
   }
 });
 

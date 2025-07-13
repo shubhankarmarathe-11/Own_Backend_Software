@@ -7,6 +7,7 @@ import {
   IsActiveRoute,
   Login,
   SignupRoute,
+  LogoutRoute,
 } from "./src/Routes/Auth/ExportAuthRoutes.js";
 
 import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
@@ -35,6 +36,7 @@ app.use(ConnectProject);
 app.use(SignupRoute);
 app.use(Login);
 app.use(IsActiveRoute);
+app.use(LogoutRoute);
 
 //Email Route
 
