@@ -16,7 +16,7 @@ async function SignNewToken(id) {
       .setIssuedAt()
       .setIssuer(process.env.JWT_ISSUER)
       .setAudience(process.env.JWT_AUDIENCE)
-      .setExpirationTime("100s")
+      .setExpirationTime("1d")
       .sign(JWT_SECRET);
 
     return Token;
@@ -25,17 +25,36 @@ async function SignNewToken(id) {
   }
 }
 
+let BlacklistTokens = [];
+
 async function VerifyToken(Token) {
   try {
-    const { payload } = await jwtVerify(String(Token), JWT_SECRET, {
+    let { payload } = await jwtVerify(String(Token), JWT_SECRET, {
       issuer: process.env.JWT_ISSUER, // issuer
       audience: process.env.JWT_AUDIENCE, // audience
     });
-    // log values to console
+
+    let resultarr = await BlacklistTokens.filter((u) => u == Token);
+    if (resultarr.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    if (error.code == "ERR_JWT_EXPIRED") {
+      BlacklistTokens = await BlacklistTokens.filter((u) => u != Token);
+    }
+    return false;
+  }
+}
+
+async function BlaklistTokenonLogout(Token) {
+  try {
+    await BlacklistTokens.push(Token);
     return true;
   } catch (error) {
     return false;
   }
 }
 
-export { SignNewToken, VerifyToken };
+export { SignNewToken, VerifyToken, BlaklistTokenonLogout };
