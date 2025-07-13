@@ -135,6 +135,8 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ✅ Replace placeholders such as `YOUR_PROJECT_ID`, `user@example.com`, and `YOUR_JWT_TOKEN_HERE` with your actual values during implementation.
 
+✅ You get Your `PROJECT_ID` as you Create Project And `JWT_Token` When you Signup/Login .
+
 ✅ Use consistent `ProjectID` across your requests to align with your project's environment.
 
 ✅ Supports **scalable SaaS authentication and email handling** with flexible extra fields and preferences for rapid MVP and product launches.
