@@ -10,6 +10,8 @@ import {
   LogoutRoute,
 } from "./src/Routes/Auth/ExportAuthRoutes.js";
 
+import { InsertRoute } from "./src/Routes/UserDataStore/ExportDataRoutes.js";
+
 import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
 
 import dotenv from "dotenv";
@@ -42,7 +44,9 @@ app.use(LogoutRoute);
 
 app.use(EmailServiceRoute);
 
-// CURD Operation Routes
+// CURD Operation on User Data Routes
+
+app.use(InsertRoute);
 
 app.get("/", (req, res) => {
   res.send("Working");
