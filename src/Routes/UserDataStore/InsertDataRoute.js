@@ -13,8 +13,8 @@ InsertRoute.post("/api/InsertData", async (req, res) => {
     let result = await VerifyTokenForDataStore(Options.Token);
     let FindProj = await ProjectTable.findById(Options.ProjectID);
 
-    let encryptdata = await EncryptData(Options.Data);
-    if (encryptdata != false) {
+    let encryptdata = await EncryptData(JSON.stringify(Options.Data));
+    if (encryptdata != false && result != false) {
       let FindDataStore = await ProjectDataStore.findByIdAndUpdate(
         FindProj.UserData[0]._id,
         {
@@ -23,8 +23,10 @@ InsertRoute.post("/api/InsertData", async (req, res) => {
           },
         }
       );
+      res.status(200).send("Data Inserted ... ");
+    } else {
+      res.status(400).send("Please try again ...");
     }
-    res.status(200).send("Data Inserted ... ");
   } catch (error) {
     res.status(400).send("Please try again ...");
   }

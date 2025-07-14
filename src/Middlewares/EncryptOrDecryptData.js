@@ -29,7 +29,7 @@ const DecryptData = async (data) => {
         padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
         oaepHash: "sha256",
       },
-      data
+      Buffer.from(data, "base64")
     );
 
     return decryptedData.toString();

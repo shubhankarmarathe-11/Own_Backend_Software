@@ -10,7 +10,10 @@ import {
   LogoutRoute,
 } from "./src/Routes/Auth/ExportAuthRoutes.js";
 
-import { InsertRoute } from "./src/Routes/UserDataStore/ExportDataRoutes.js";
+import {
+  InsertRoute,
+  RetriveDataRoute,
+} from "./src/Routes/UserDataStore/ExportDataRoutes.js";
 
 import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
 
@@ -47,6 +50,7 @@ app.use(EmailServiceRoute);
 // CURD Operation on User Data Routes
 
 app.use(InsertRoute);
+app.use(RetriveDataRoute);
 
 app.get("/", (req, res) => {
   res.send("Working");
