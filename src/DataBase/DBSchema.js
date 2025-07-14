@@ -41,6 +41,13 @@ const ProjectSchema = new mongoose.Schema(
         ref: "ProjectData",
       },
     ],
+
+    UserData: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "StoreUserData",
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -53,7 +60,26 @@ const ProjectData = new mongoose.Schema({
   AuthData: [{}],
 });
 
+const StoreUserData = new mongoose.Schema({
+  Projectid: {
+    type: Schema.Types.ObjectId,
+    ref: "ProjectSchema",
+  },
+  UserData: [
+    {
+      _uid: {
+        type: String,
+        required: true,
+      },
+      Data: {
+        type: String,
+      },
+    },
+  ],
+});
+
 const ProjectTable = mongoose.model("ProjectSchema", ProjectSchema);
 const ProjectDataTable = mongoose.model("ProjectData", ProjectData);
+const ProjectDataStore = mongoose.model("StoreUserData", StoreUserData);
 
-export { ProjectTable, ProjectDataTable };
+export { ProjectTable, ProjectDataTable, ProjectDataStore };

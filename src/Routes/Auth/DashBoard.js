@@ -1,7 +1,10 @@
 import express from "express";
-import mongoose from "mongoose";
 import { CreateDataBase } from "../../Middlewares/CreateProjectDB.js";
-import { ProjectTable, ProjectDataTable } from "../../DataBase/DBSchema.js";
+import {
+  ProjectTable,
+  ProjectDataTable,
+  ProjectDataStore,
+} from "../../DataBase/DBSchema.js";
 
 const ConnectProject = express.Router();
 
@@ -36,6 +39,10 @@ ConnectProject.post("/api/DeleteProject", async (req, res) => {
     let FindProj = await ProjectTable.findById(Options.ProjectID);
     let FindDataDBToDelete = await ProjectDataTable.findByIdAndDelete(
       FindProj.ProjectData[0]._id
+    );
+
+    let FindUserDataToDelete = await ProjectDataStore.findByIdAndDelete(
+      FindProj.UserData[0]._id
     );
 
     let FindAndDelete = await ProjectTable.findByIdAndDelete(Options.ProjectID);

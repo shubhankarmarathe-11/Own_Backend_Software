@@ -1,4 +1,8 @@
-import { ProjectTable, ProjectDataTable } from "../DataBase/DBSchema.js";
+import {
+  ProjectTable,
+  ProjectDataTable,
+  ProjectDataStore,
+} from "../DataBase/DBSchema.js";
 
 const CreateDataBase = async (
   options = {
@@ -34,8 +38,19 @@ const CreateDataBase = async (
       });
       CreateDataTable.save();
 
+      // Create Table For UserData
+
+      let CreateUserDataTable = await ProjectDataStore.create({
+        Projectid: CreateTable._id,
+      });
+
+      CreateUserDataTable.save();
+
       let update = await ProjectTable.findByIdAndUpdate(CreateTable._id, {
-        $push: { ProjectData: CreateDataTable._id },
+        $push: {
+          ProjectData: CreateDataTable._id,
+          UserData: CreateUserDataTable._id,
+        },
       });
 
       return { status: true, ProjectID: CreateTable._id };

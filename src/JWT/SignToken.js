@@ -57,4 +57,21 @@ async function BlaklistTokenonLogout(Token) {
   }
 }
 
-export { SignNewToken, VerifyToken, BlaklistTokenonLogout };
+async function VerifyTokenForDataStore(Token) {
+  try {
+    let { payload } = await jwtVerify(String(Token), JWT_SECRET, {
+      issuer: process.env.JWT_ISSUER, // issuer
+      audience: process.env.JWT_AUDIENCE, // audience
+    });
+    return payload;
+  } catch (error) {
+    return false;
+  }
+}
+
+export {
+  SignNewToken,
+  VerifyToken,
+  BlaklistTokenonLogout,
+  VerifyTokenForDataStore,
+};
