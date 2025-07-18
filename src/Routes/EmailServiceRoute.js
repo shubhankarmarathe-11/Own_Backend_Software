@@ -14,7 +14,6 @@ EmailServiceRoute.post(
   CheckEmailApplicable,
   async (req, res) => {
     let { Options } = req.body;
-
     try {
       let FindProj = await ProjectTable.findById(Options.ProjectID);
 
