@@ -1,6 +1,6 @@
 ## 🚀 SaaS Project API – Auth, Email, and Project Management
 
-A structured API for managing **project creation, deletion, authentication (signup, login, logout, session check), and email services (OTP and messaging)** in your SaaS applications.
+A structured API for managing **project creation, deletion, authentication (signup, login, logout, session checks), and email services (OTP and messaging)** for your SaaS applications.
 
 ---
 
@@ -8,10 +8,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ### 1️⃣ Create Project
 
+**Endpoint:** `/api/CreateProject`
+
 ```json
-
-API - "/api/CreateProject"
-
 {
   "Options": {
     "ProjectName": "Your Project Name",
@@ -33,10 +32,9 @@ API - "/api/CreateProject"
 
 ### 2️⃣ Delete Project
 
+**Endpoint:** `/api/DeleteProject`
+
 ```json
-
-API - "/api/DeleteProject"
-
 {
   "Options": {
     "ProjectID": "686fa610c34e6807d1dfae8f"
@@ -46,14 +44,13 @@ API - "/api/DeleteProject"
 
 ---
 
-## 🔐 Auth Properties
+## 🔐 Authentication
 
 ### 1️⃣ Signup
 
+**Endpoint:** `/api/Signup`
+
 ```json
-
-API - "/api/Signup"
-
 {
   "ProjectID": "YOUR_PROJECT_ID",
   "Options": {
@@ -70,10 +67,9 @@ API - "/api/Signup"
 
 ### 2️⃣ Login
 
+**Endpoint:** `/api/Login`
+
 ```json
-
-API - "/api/Login"
-
 {
   "ProjectID": "YOUR_PROJECT_ID",
   "Options": {
@@ -85,10 +81,9 @@ API - "/api/Login"
 
 ### 3️⃣ Session Check
 
+**Endpoint:** `/api/IsActive`
+
 ```json
-
-API - "/api/IsActive"
-
 {
   "Token": "YOUR_JWT_TOKEN_HERE"
 }
@@ -96,10 +91,9 @@ API - "/api/IsActive"
 
 ### 4️⃣ Logout
 
+**Endpoint:** `/api/Logout`
+
 ```json
-
-API - "/api/Logout"
-
 {
   "Token": "YOUR_JWT_TOKEN_HERE"
 }
@@ -107,14 +101,13 @@ API - "/api/Logout"
 
 ---
 
-## 📧 Email Properties
+## 📧 Email Services
 
 ### 1️⃣ Send OTP
 
+**Endpoint:** `/api/SendOTP`
+
 ```json
-
-API - "/api/SendOTP"
-
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
@@ -129,10 +122,9 @@ API - "/api/SendOTP"
 
 ### 2️⃣ Send Message
 
+**Endpoint:** `/api/SendMessage`
+
 ```json
-
-API - "/api/SendMessage"
-
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
@@ -145,14 +137,58 @@ API - "/api/SendMessage"
 }
 ```
 
-### 3️⃣ Check OTP
+### 3️⃣ Verify OTP
+
+**Endpoint:** `/api/CheckOTP`
 
 ```json
-
-API - "/api/CheckOTP"
-
 {
   "CheckOTP": 643546
+}
+```
+
+---
+
+## 🗂️ Data Management
+
+### Insert Data
+
+**Endpoint:** `/api/InsertData`
+
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN_HERE",
+    "Data": "Hello, I am a demo."
+  }
+}
+```
+
+### Delete Data
+
+**Endpoint:** `/api/DeleteData`
+
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN_HERE",
+    "Data_id": "YOUR_DATA_ID"
+  }
+}
+```
+
+### Retrieve Data
+
+**Endpoint:** `/api/RetriveData`
+
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN_HERE"
+  }
 }
 ```
 
@@ -162,10 +198,13 @@ API - "/api/CheckOTP"
 
 ✅ Replace placeholders such as `YOUR_PROJECT_ID`, `user@example.com`, and `YOUR_JWT_TOKEN_HERE` with your actual values during implementation.
 
-✅ You get Your `PROJECT_ID` as you Create Project And `JWT_Token` When you Signup/Login .
+✅ You will receive your `PROJECT_ID` when you create a project and your `JWT_Token` upon successful signup or login.
 
-✅ Use consistent `ProjectID` across your requests to align with your project's environment.
+✅ Use a consistent `ProjectID` across your requests to align with your project environment.
 
-✅ Supports **scalable SaaS authentication and email handling** with flexible extra fields and preferences for rapid MVP and product launches.
+✅ Supports **scalable SaaS authentication, email handling, and data management** with flexible extra fields for rapid MVP and product launches.
 
----
+✅ The `Data` field can be any JSON-compatible type (array, object, string, number) but does not support files.
+
+✅ Each data entry generates a unique `Data_id` for targeted operations.
+
