@@ -15,11 +15,11 @@ InsertRoute.post("/api/InsertData", async (req, res) => {
 
     let encryptdata = await EncryptData(JSON.stringify(Options.Data));
     if (encryptdata != false && result != false) {
-      let FindDataStore = await ProjectDataStore.findByIdAndUpdate(
-        FindProj.UserData[0]._id,
+      let FindDataStore = await ProjectDataStore.findOneAndUpdate(
+        { _uid: result.id },
         {
           $push: {
-            UserData: { _uid: result.id, Data: encryptdata },
+            UserData: { Data: encryptdata },
           },
         }
       );

@@ -1,5 +1,9 @@
 import express from "express";
-import { ProjectTable, ProjectDataTable } from "../../DataBase/DBSchema.js";
+import {
+  ProjectTable,
+  ProjectDataTable,
+  ProjectDataStore,
+} from "../../DataBase/DBSchema.js";
 import { SignupPreCheck } from "../../Middlewares/SignupMethods.js";
 import {
   EmailCheck,
@@ -59,6 +63,10 @@ SignupRoute.post(
               ExtraFields: Options.ExtraFields,
             },
           },
+        });
+
+        await ProjectDataStore.findByIdAndUpdate(findProject.UserData[0], {
+          _uid: String(GeneratedID),
         });
 
         let Token = await SignNewToken(GeneratedID);

@@ -13,6 +13,7 @@ import {
 import {
   InsertRoute,
   RetriveDataRoute,
+  DeleteDataRoute
 } from "./src/Routes/UserDataStore/ExportDataRoutes.js";
 
 import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
@@ -51,6 +52,7 @@ app.use(EmailServiceRoute);
 
 app.use(InsertRoute);
 app.use(RetriveDataRoute);
+app.use(DeleteDataRoute);
 
 app.get("/", (req, res) => {
   res.send("Working");

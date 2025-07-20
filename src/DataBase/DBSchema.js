@@ -65,12 +65,11 @@ const StoreUserData = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "ProjectSchema",
   },
+  _uid: {
+    type: String,
+  },
   UserData: [
     {
-      _uid: {
-        type: String,
-        required: true,
-      },
       Data: {
         type: String,
       },

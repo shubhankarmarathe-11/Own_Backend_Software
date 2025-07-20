@@ -42,6 +42,7 @@ const CreateDataBase = async (
 
       let CreateUserDataTable = await ProjectDataStore.create({
         Projectid: CreateTable._id,
+        _uid: "",
       });
 
       CreateUserDataTable.save();
