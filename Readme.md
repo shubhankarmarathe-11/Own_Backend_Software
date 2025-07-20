@@ -9,6 +9,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 1️⃣ Create Project
 
 ```json
+
+API - "/api/CreateProject"
+
 {
   "Options": {
     "ProjectName": "Your Project Name",
@@ -31,6 +34,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 2️⃣ Delete Project
 
 ```json
+
+API - "/api/DeleteProject"
+
 {
   "Options": {
     "ProjectID": "686fa610c34e6807d1dfae8f"
@@ -45,6 +51,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 1️⃣ Signup
 
 ```json
+
+API - "/api/Signup"
+
 {
   "ProjectID": "YOUR_PROJECT_ID",
   "Options": {
@@ -62,6 +71,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 2️⃣ Login
 
 ```json
+
+API - "/api/Login"
+
 {
   "ProjectID": "YOUR_PROJECT_ID",
   "Options": {
@@ -74,6 +86,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 3️⃣ Session Check
 
 ```json
+
+API - "/api/IsActive"
+
 {
   "Token": "YOUR_JWT_TOKEN_HERE"
 }
@@ -82,6 +97,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 4️⃣ Logout
 
 ```json
+
+API - "/api/Logout"
+
 {
   "Token": "YOUR_JWT_TOKEN_HERE"
 }
@@ -94,6 +112,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 1️⃣ Send OTP
 
 ```json
+
+API - "/api/SendOTP"
+
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
@@ -109,6 +130,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 2️⃣ Send Message
 
 ```json
+
+API - "/api/SendMessage"
+
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
@@ -124,6 +148,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 ### 3️⃣ Check OTP
 
 ```json
+
+API - "/api/CheckOTP"
+
 {
   "CheckOTP": 643546
 }
