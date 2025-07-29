@@ -38,19 +38,9 @@ const CreateDataBase = async (
       });
       CreateDataTable.save();
 
-      // Create Table For UserData
-
-      let CreateUserDataTable = await ProjectDataStore.create({
-        Projectid: CreateTable._id,
-        _uid: "",
-      });
-
-      CreateUserDataTable.save();
-
       let update = await ProjectTable.findByIdAndUpdate(CreateTable._id, {
         $push: {
           ProjectData: CreateDataTable._id,
-          UserData: CreateUserDataTable._id,
         },
       });
 

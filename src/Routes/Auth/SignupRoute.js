@@ -64,10 +64,16 @@ SignupRoute.post(
             },
           },
         });
+        if (GeneratedID != "") {
+          let CreateUserData = await ProjectDataStore.create({
+            Projectid: String(ProjectID),
+            _uid: String(GeneratedID),
+          });
 
-        await ProjectDataStore.findByIdAndUpdate(findProject.UserData[0], {
-          _uid: String(GeneratedID),
-        });
+          await ProjectTable.findByIdAndUpdate(ProjectID, {
+            $push: { UserData: CreateUserData._id },
+          });
+        }
 
         let Token = await SignNewToken(GeneratedID);
         res.status(200).send(`${Token}`);

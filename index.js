@@ -13,7 +13,7 @@ import {
 import {
   InsertRoute,
   RetriveDataRoute,
-  DeleteDataRoute
+  DeleteDataRoute,
 } from "./src/Routes/UserDataStore/ExportDataRoutes.js";
 
 import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
