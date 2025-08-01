@@ -14,6 +14,8 @@ InsertRoute.post("/api/InsertData", async (req, res) => {
     let FindProj = await ProjectTable.findById(Options.ProjectID);
 
     let encryptdata = await EncryptData(JSON.stringify(Options.Data));
+    console.log(result);
+
     if (encryptdata != false && result != false) {
       let FindDataStore = await ProjectDataStore.findOneAndUpdate(
         { _uid: result.id },
@@ -25,10 +27,10 @@ InsertRoute.post("/api/InsertData", async (req, res) => {
       );
       res.status(200).send("Data Inserted ... ");
     } else {
-      res.status(400).send("Please try again ...");
+      res.status(400).send("Please try again ... *");
     }
   } catch (error) {
-    res.status(400).send("Please try again ...");
+    res.status(400).send("Please try again ... **");
   }
 });
 

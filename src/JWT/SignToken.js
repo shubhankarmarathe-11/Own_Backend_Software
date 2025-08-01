@@ -1,5 +1,6 @@
 import { createSecretKey } from "crypto";
 import { SignJWT, jwtVerify } from "jose";
+import { BlacklistedTokens } from "../DataBase/DBSchema.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -24,8 +25,7 @@ async function SignNewToken(id) {
     return false;
   }
 }
-
-let BlacklistTokens = [];
+// let BlacklistTokens = [];
 
 async function VerifyToken(Token) {
   try {
@@ -34,15 +34,15 @@ async function VerifyToken(Token) {
       audience: process.env.JWT_AUDIENCE, // audience
     });
 
-    let resultarr = await BlacklistTokens.filter((u) => u == Token);
-    if (resultarr.length == 0) {
+    let resultarr = await BlacklistedTokens.findOne({ Token: Token });
+    if (resultarr == null) {
       return true;
     } else {
       return false;
     }
   } catch (error) {
     if (error.code == "ERR_JWT_EXPIRED") {
-      BlacklistTokens = await BlacklistTokens.filter((u) => u != Token);
+      await BlacklistedTokens.findOneAndDelete({ Token: Token });
     }
     return false;
   }
@@ -50,7 +50,8 @@ async function VerifyToken(Token) {
 
 async function BlaklistTokenonLogout(Token) {
   try {
-    await BlacklistTokens.push(Token);
+    let storetoken = await BlacklistedTokens.create({ Token: Token });
+    await storetoken.save();
     return true;
   } catch (error) {
     return false;
@@ -63,8 +64,18 @@ async function VerifyTokenForDataStore(Token) {
       issuer: process.env.JWT_ISSUER, // issuer
       audience: process.env.JWT_AUDIENCE, // audience
     });
-    return payload;
+    let resultarr = await BlacklistedTokens.findOne({ Token: Token });
+    console.log(resultarr);
+
+    if (resultarr == null) {
+      return payload;
+    } else {
+      return false;
+    }
   } catch (error) {
+    if (error.code == "ERR_JWT_EXPIRED") {
+      await BlacklistedTokens.findOneAndDelete({ Token: Token });
+    }
     return false;
   }
 }

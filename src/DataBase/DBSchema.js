@@ -77,8 +77,16 @@ const StoreUserData = new mongoose.Schema({
   ],
 });
 
+const BlacklistedToken = new mongoose.Schema({
+  Token: {
+    type: String,
+    required: true,
+  },
+});
+
 const ProjectTable = mongoose.model("ProjectSchema", ProjectSchema);
 const ProjectDataTable = mongoose.model("ProjectData", ProjectData);
 const ProjectDataStore = mongoose.model("StoreUserData", StoreUserData);
+const BlacklistedTokens = mongoose.model("BlacklistedToken", BlacklistedToken);
 
-export { ProjectTable, ProjectDataTable, ProjectDataStore };
+export { ProjectTable, ProjectDataTable, ProjectDataStore, BlacklistedTokens };
