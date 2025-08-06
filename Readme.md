@@ -99,6 +99,16 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
+### Delete Account
+
+**Endpoint:** `/api/DeleteAccount`
+
+```json
+{
+  "Token": "YOUR_JWT_TOKEN_HERE"
+}
+```
+
 ---
 
 ## 📧 Email Services
@@ -160,7 +170,7 @@ A structured API for managing **project creation, deletion, authentication (sign
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
     "Token": "YOUR_JWT_TOKEN_HERE",
-    "Data": "Hello, I am a demo."
+    "Data": "Hello, I am a demo data."
   }
 }
 ```
@@ -192,6 +202,20 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
+### Update Data
+
+**Endpoint:** `/api/UpdateData`
+
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN_HERE",
+    "Data_id":"YOUR_DATA_ID",
+    "Data":"Hello, I am a new data."
+  }
+}
+
 ---
 
 ## 🛠️ Notes
@@ -208,3 +232,4 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ✅ Each data entry generates a unique `Data_id` for targeted operations.
 
+```
