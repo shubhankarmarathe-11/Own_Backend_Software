@@ -211,14 +211,15 @@ A structured API for managing **project creation, deletion, authentication (sign
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
     "Token": "YOUR_JWT_TOKEN_HERE",
-    "Data_id":"YOUR_DATA_ID",
-    "Data":"Hello, I am a new data."
+    "Data_id": "YOUR_DATA_ID",
+    "Data": "Hello, I am a new data."
   }
 }
+```
 
 ---
 
-## 🛠️ Notes
+### 🛠️ Notes
 
 ✅ Replace placeholders such as `YOUR_PROJECT_ID`, `user@example.com`, and `YOUR_JWT_TOKEN_HERE` with your actual values during implementation.
 
@@ -231,5 +232,7 @@ A structured API for managing **project creation, deletion, authentication (sign
 ✅ The `Data` field can be any JSON-compatible type (array, object, string, number) but does not support files.
 
 ✅ Each data entry generates a unique `Data_id` for targeted operations.
+
+```
 
 ```
