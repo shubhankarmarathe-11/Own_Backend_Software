@@ -8,6 +8,7 @@ import {
   Login,
   SignupRoute,
   LogoutRoute,
+  DeleteAccountRoute,
 } from "./src/Routes/Auth/ExportAuthRoutes.js";
 
 import {
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const Dbconnect = async () => {
-  await mongoose.connect("mongodb://127.0.0.1:27017/SAAS");
+  await mongoose.connect(`${process.env.MONGO_URI}`);
   console.log("Connected");
 };
 
@@ -44,6 +45,7 @@ app.use(SignupRoute);
 app.use(Login);
 app.use(IsActiveRoute);
 app.use(LogoutRoute);
+app.use(DeleteAccountRoute);
 
 //Email Route
 
@@ -60,6 +62,6 @@ app.get("/", (req, res) => {
   res.send("Working");
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server Started at ${PORT}`);
 });
