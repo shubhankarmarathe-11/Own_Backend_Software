@@ -9,6 +9,7 @@ import {
   SignupRoute,
   LogoutRoute,
   DeleteAccountRoute,
+  ForgetPasswordRoute,
 } from "./src/Routes/Auth/ExportAuthRoutes.js";
 
 import {
@@ -46,6 +47,7 @@ app.use(Login);
 app.use(IsActiveRoute);
 app.use(LogoutRoute);
 app.use(DeleteAccountRoute);
+app.use(ForgetPasswordRoute);
 
 //Email Route
 

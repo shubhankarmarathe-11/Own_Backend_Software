@@ -4,6 +4,7 @@ import { Login } from "./LoginRoute.js";
 import { IsActiveRoute } from "./IsActive.js";
 import { LogoutRoute } from "./LogoutRoute.js";
 import { DeleteAccountRoute } from "./DeleteAccount.js";
+import { ForgetPasswordRoute } from "./ForgetPassword.js";
 
 export {
   ConnectProject,
@@ -12,4 +13,5 @@ export {
   IsActiveRoute,
   LogoutRoute,
   DeleteAccountRoute,
+  ForgetPasswordRoute,
 };
