@@ -37,7 +37,7 @@ A structured API for managing **project creation, deletion, authentication (sign
 ```json
 {
   "Options": {
-    "ProjectID": "686fa610c34e6807d1dfae8f"
+    "ProjectID": "YOUR_PROJECT_ID"
   }
 }
 ```
@@ -106,6 +106,20 @@ A structured API for managing **project creation, deletion, authentication (sign
 ```json
 {
   "Token": "YOUR_JWT_TOKEN_HERE"
+}
+```
+
+### Reset Password
+
+**Endpoint:** `/api/ForgetPassword`
+
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN_HERE",
+    "UpdatedPassword": "YOUR_NEW_PASSWORD"
+  }
 }
 ```
 
