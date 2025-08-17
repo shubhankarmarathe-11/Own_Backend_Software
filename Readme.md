@@ -117,7 +117,7 @@ A structured API for managing **project creation, deletion, authentication (sign
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
-    "Token": "YOUR_JWT_TOKEN_HERE",
+    "UserEmail": "YOUR_EMAIL_ID",
     "UpdatedPassword": "YOUR_NEW_PASSWORD"
   }
 }
