@@ -1,33 +1,76 @@
 import express from "express";
-import { ProjectDataTable, ProjectTable } from "../../DataBase/DBSchema.js";
-import { LoginChecks } from "../../Middlewares/LoginMethods.js";
-import { SignNewToken } from "../../JWT/SignToken.js";
+import bcrypt from "bcryptjs";
+import { UserAuthInformation } from "../../Schemas/UserAuthInformation.js";
+import { SignNewToken } from "../../utils/jwt.js";
 
-const Login = express.Router();
+const LoginRoute = express.Router();
 
-Login.post("/api/Login", async (req, res) => {
-  let { ProjectID, Options } = req.body;
-
+async function handleInputs(req, res, next) {
   try {
-    let FindPRoject = await ProjectTable.findById(ProjectID);
-    let findAuthData = await ProjectDataTable.findById(
-      FindPRoject.ProjectData[0]
-    );
+    let { EmailOrUsername } = req.body;
 
-    let LoginCHeckValue = await LoginChecks(FindPRoject, findAuthData, Options);
-    console.log(LoginCHeckValue);
-
-    if (LoginCHeckValue.status == 200) {
-      let Token = await SignNewToken(LoginCHeckValue.Userid);
-      res.status(200).send(`${Token}`);
+    if (String(EmailOrUsername).includes("@gmail.com")) {
+      req.Email = EmailOrUsername;
+      next();
     } else {
-      res.status(409).send("Invalid Credentials ... ");
+      req.Username = EmailOrUsername;
+      next();
     }
   } catch (error) {
-    res.status(400).send("Please Try Again ... ");
+    res.status(503).send("Please try again");
   }
-});
+}
 
-export { Login };
+async function VerifyPassword(req, res, next) {
+  try {
+    let { Password, EmailOrUsername, ProjectID } = req.body;
+    Password = String(Password);
+    EmailOrUsername = String(EmailOrUsername);
 
-// 1958265
+    let FindUser = await UserAuthInformation.findOne({
+      ProjectID: ProjectID,
+      "AuthData.Email": EmailOrUsername,
+    });
+
+    if (FindUser == null || FindUser == undefined) {
+      res.status(401).send("Username not Found ");
+    } else {
+      let CompareHash = await bcrypt.compare(
+        Password,
+        FindUser.AuthData.Password
+      );
+
+      if (CompareHash == true) {
+        req.UserFound = FindUser;
+        next();
+      } else {
+        res.status(401).send("Incorrect Password");
+      }
+    }
+  } catch (error) {
+    res.status(503).send("Please try again");
+  }
+}
+
+LoginRoute.post(
+  "/api/Login",
+  handleInputs,
+  VerifyPassword,
+  async (req, res) => {
+    try {
+      let { UserFound } = req;
+
+      let Token = await SignNewToken(String(UserFound.AuthData._id));
+
+      if (Token != false) {
+        res.status(200).send(`Login Successful . your Token is -- ${Token}`);
+      } else {
+        res.status(503).send("Please try again");
+      }
+    } catch (error) {
+      res.status(503).send("Please try again");
+    }
+  }
+);
+
+export { LoginRoute };

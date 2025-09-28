@@ -2,26 +2,27 @@ import express from "express";
 import cors from "cors";
 import mongoose, { Mongoose } from "mongoose";
 import bodyParser from "body-parser";
-import {
-  ConnectProject,
-  IsActiveRoute,
-  Login,
-  SignupRoute,
-  LogoutRoute,
-  DeleteAccountRoute,
-  ForgetPasswordRoute,
-} from "./src/Routes/Auth/ExportAuthRoutes.js";
-
-import {
-  InsertRoute,
-  RetriveDataRoute,
-  DeleteDataRoute,
-  UpdateDataRoute,
-} from "./src/Routes/UserDataStore/ExportDataRoutes.js";
-
-import { EmailServiceRoute } from "./src/Routes/EmailServiceRoute.js";
 
 import dotenv from "dotenv";
+
+import {
+  CreateProject,
+  DeleteProjectRoute,
+} from "./src/Routes/Project_Routes/ExportRoutes1.js";
+
+import {
+  SignupRoute,
+  LoginRoute,
+  RemoveAccountRoute,
+  ResetPasswordRoute,
+} from "./src/Routes/Auth/ExportRoutes2.js";
+
+import {
+  InsertDataRoute,
+  RetriveDataRoute,
+  UpdateDataRoute,
+  DeleteDataRoute,
+} from "./src/Routes/DataOperation/ExportRoutes3.js";
 
 dotenv.config();
 
@@ -39,31 +40,29 @@ const Dbconnect = async () => {
 
 Dbconnect();
 
-// Auth Routes
-
-app.use(ConnectProject);
-app.use(SignupRoute);
-app.use(Login);
-app.use(IsActiveRoute);
-app.use(LogoutRoute);
-app.use(DeleteAccountRoute);
-app.use(ForgetPasswordRoute);
-
-//Email Route
-
-app.use(EmailServiceRoute);
-
-// CURD Operation on User Data Routes
-
-app.use(InsertRoute);
-app.use(RetriveDataRoute);
-app.use(DeleteDataRoute);
-app.use(UpdateDataRoute);
-
 app.get("/", (req, res) => {
   res.send("Working");
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server Started at ${PORT}`);
+// CURD Project Routes
+
+app.use(CreateProject);
+app.use(DeleteProjectRoute);
+
+// Auth Routes
+app.use(SignupRoute);
+app.use(LoginRoute);
+app.use(RemoveAccountRoute);
+app.use(ResetPasswordRoute);
+
+// CURD Operation Routes for Data
+
+app.use(InsertDataRoute);
+app.use(RetriveDataRoute);
+app.use(UpdateDataRoute);
+app.use(DeleteDataRoute);
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+

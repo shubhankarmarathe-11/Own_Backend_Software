@@ -1,91 +1,53 @@
 import express from "express";
-import {
-  ProjectTable,
-  ProjectDataTable,
-  ProjectDataStore,
-} from "../../DataBase/DBSchema.js";
-import { SignupPreCheck } from "../../Middlewares/SignupMethods.js";
-import {
-  EmailCheck,
-  MobileNo,
-  PasswordCheck,
-  CheckPref,
-} from "../../Middlewares/SignupMiddlewares.js";
+import { UserAuthInformation } from "../../Schemas/UserAuthInformation.js";
+import { UserDataInformation } from "../../Schemas/UserDataInformation.js";
+import { ProjectInformation } from "../../Schemas/ProjectInformation.js";
+import { SignNewToken } from "../../utils/jwt.js";
+import { ValidateInput, CheckEmail } from "../../Middlewares/ValidateInput.js";
 import bcrypt from "bcryptjs";
-import { SignNewToken } from "../../JWT/SignToken.js";
 
 const SignupRoute = express.Router();
 
-const generateCustomId = () => {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789$@#%&";
-  let result = "";
-  const charactersLength = characters.length;
-  for (let i = 0; i < 16; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
+SignupRoute.post("/api/Signup", ValidateInput, CheckEmail, async (req, res) => {
+  try {
+    let { ProjectID, Email, Password, Username, MobileNumber } = req.body;
 
-SignupRoute.post(
-  "/api/Signup",
-  CheckPref,
-  EmailCheck,
-  PasswordCheck,
-  MobileNo,
-  async (req, res) => {
-    let { ProjectID, Options } = req.body;
+    Password = await bcrypt.hash(String(Password), 10);
 
-    try {
-      let findProject = await ProjectTable.findById(ProjectID); // Project Details mean Preferences are fetched
+    let Createuser = await UserAuthInformation.create({
+      ProjectID: ProjectID,
+      AuthData: {
+        Email: Email,
+        Password: Password,
+        Username: Username,
+        MobileNumber: MobileNumber,
+      },
+    });
 
-      let findAuthData = await ProjectDataTable.findById(
-        findProject.ProjectData[0]
-      ); // related Data set is fetched to store the data
+    await Createuser.save();
 
-      // By default Options
+    let Token = await SignNewToken(String(Createuser.AuthData._id));
 
-      let GeneratedID = await generateCustomId();
-      console.log(GeneratedID);
+    if (Token != false) {
+      let CreateUserData = await UserDataInformation.create({
+        UserID: Createuser.AuthData._id,
+      });
+      await CreateUserData.save();
 
-      let PreCheck = await SignupPreCheck(Options, findAuthData, GeneratedID);
+      Createuser.AuthData.UserDataInfo = await CreateUserData._id;
+      await Createuser.save();
 
-      if (PreCheck == 200) {
-        Options.ProjectPreferences.Password = await bcrypt.hash(
-          Options.ProjectPreferences.Password,
-          10
-        );
-        await ProjectDataTable.findByIdAndUpdate(findProject.ProjectData[0], {
-          $push: {
-            AuthData: {
-              id: String(GeneratedID),
-              ProjectPreferences: Options.ProjectPreferences,
-              ExtraFields: Options.ExtraFields,
-            },
-          },
-        });
-        if (GeneratedID != "") {
-          let CreateUserData = await ProjectDataStore.create({
-            Projectid: String(ProjectID),
-            _uid: String(GeneratedID),
-          });
-
-          await ProjectTable.findByIdAndUpdate(ProjectID, {
-            $push: { UserData: CreateUserData._id },
-          });
-        }
-
-        let Token = await SignNewToken(GeneratedID);
-        res.status(200).send(`${Token}`);
-      } else if (PreCheck == 409) {
-        res.status(409).send("Please Choose Another Email or UserName ... ");
-      } else {
-        res.status(406).send("Please Select Another options ... ");
-      }
-    } catch (error) {
-      res.status(400).send("Please try Again ....");
+      await ProjectInformation.findByIdAndUpdate(ProjectID, {
+        $push: { UserauthInfo: Createuser.AuthData._id },
+      });
+      res.status(200).send(`Account Created . User Token -- ${Token} `);
+    } else {
+      await UserAuthInformation.findByIdAndDelete(Createuser._id);
+      res.status(503).send("Please try again");
     }
+  } catch (error) {
+    res.status(503).send("Please try again");
   }
-);
+});
 
 export { SignupRoute };
