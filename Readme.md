@@ -1,6 +1,6 @@
-## 🚀 SaaS Project API – Auth, Email, and Project Management
+## 🚀  Project API – Auth, Email, and Project Management
 
-A structured API for managing **project creation, deletion, authentication (signup, login, logout, session checks), and email services (OTP and messaging)** for your SaaS applications.
+A structured API for managing **project creation, deletion, authentication (signup, login, logout, session checks), and email services (OTP and messaging)** for your web applications.
 
 ---
 
