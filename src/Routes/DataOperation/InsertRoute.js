@@ -5,7 +5,7 @@ import { UserDataInformation } from "../../Schemas/UserDataInformation.js";
 
 const InsertDataRoute = express.Router();
 
-InsertDataRoute.post("/api/InsertData", VerifyUserToken, async (req, res) => {
+InsertDataRoute.post("/api/insertdata", VerifyUserToken, async (req, res) => {
   try {
     let { id } = req;
     let { UserData } = req.body;

@@ -5,7 +5,7 @@ import { UserDataInformation } from "../../Schemas/UserDataInformation.js";
 
 const RetriveDataRoute = express.Router();
 
-RetriveDataRoute.post("/api/RetriveData", VerifyUserToken, async (req, res) => {
+RetriveDataRoute.post("/api/retrivedata", VerifyUserToken, async (req, res) => {
   try {
     let { id } = req;
 

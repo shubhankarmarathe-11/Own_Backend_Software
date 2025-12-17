@@ -8,7 +8,7 @@ import bcrypt from "bcryptjs";
 
 const SignupRoute = express.Router();
 
-SignupRoute.post("/api/Signup", ValidateInput, CheckEmail, async (req, res) => {
+SignupRoute.post("/api/signup", ValidateInput, CheckEmail, async (req, res) => {
   try {
     let { ProjectID, Email, Password, Username, MobileNumber } = req.body;
 

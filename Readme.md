@@ -1,14 +1,27 @@
-## 🚀  Project API – Auth, Email, and Project Management
+# 🚀 SaaS Authentication & Utility API (BaaS)
 
-A structured API for managing **project creation, deletion, authentication (signup, login, logout, session checks), and email services (OTP and messaging)** for your web applications.
+A scalable **Backend-as-a-Service (BaaS)** API that provides **project-based authentication, email services (OTP & messaging), and generic data management**.  
+Designed to help developers quickly integrate **ready-made backend features** into their SaaS and web applications.
+
+---
+
+## ✨ Key Features
+
+- 🔐 Multi-project authentication system
+- 👤 User signup, login, logout & session validation
+- 🔑 JWT-based security
+- 📧 Built-in email services (OTP verification & messaging)
+- 🗂️ Generic data storage with CRUD operations
+- ⚙️ Configurable project preferences & extra fields
+- 🚀 Ideal for SaaS apps, MVPs, and startups
 
 ---
 
 ## 📂 Project Management
 
-### 1️⃣ Create Project
+### ➕ Create Project
 
-**Endpoint:** `/api/CreateProject`
+**Endpoint:** `POST /api/createproject`
 
 ```json
 {
@@ -30,9 +43,11 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
-### 2️⃣ Delete Project
+---
 
-**Endpoint:** `/api/DeleteProject`
+### ❌ Delete Project
+
+**Endpoint:** `DELETE /api/deleteproject`
 
 ```json
 {
@@ -46,9 +61,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ## 🔐 Authentication
 
-### 1️⃣ Signup
+### 📝 Signup
 
-**Endpoint:** `/api/Signup`
+**Endpoint:** `POST /api/signup`
 
 ```json
 {
@@ -65,9 +80,11 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
-### 2️⃣ Login
+---
 
-**Endpoint:** `/api/Login`
+### 🔑 Login
+
+**Endpoint:** `POST /api/login`
 
 ```json
 {
@@ -79,46 +96,54 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
-### 3️⃣ Session Check
+---
 
-**Endpoint:** `/api/IsActive`
+### ✅ Session Check
 
-```json
-{
-  "Token": "YOUR_JWT_TOKEN_HERE"
-}
-```
-
-### 4️⃣ Logout
-
-**Endpoint:** `/api/Logout`
+**Endpoint:** `POST /api/isactive`
 
 ```json
 {
-  "Token": "YOUR_JWT_TOKEN_HERE"
+  "Token": "YOUR_JWT_TOKEN"
 }
 ```
 
-### Delete Account
+---
 
-**Endpoint:** `/api/DeleteAccount`
+### 🚪 Logout
+
+**Endpoint:** `POST /api/logout`
 
 ```json
 {
-  "Token": "YOUR_JWT_TOKEN_HERE"
+  "Token": "YOUR_JWT_TOKEN"
 }
 ```
 
-### Reset Password
+---
 
-**Endpoint:** `/api/ForgetPassword`
+### 🗑️ Delete Account
+
+**Endpoint:** `DELETE /api/deleteaccount`
+
+```json
+{
+  "Token": "YOUR_JWT_TOKEN"
+}
+```
+
+---
+
+### 🔄 Reset Password
+
+**Endpoint:** `POST /api/forgetpassword`
 
 ```json
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
-    "UserEmail": "YOUR_EMAIL_ID",
-    "UpdatedPassword": "YOUR_NEW_PASSWORD"
+    "UserEmail": "user@example.com",
+    "UpdatedPassword": "newpassword"
   }
 }
 ```
@@ -127,9 +152,9 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ## 📧 Email Services
 
-### 1️⃣ Send OTP
+### 🔢 Send OTP
 
-**Endpoint:** `/api/SendOTP`
+**Endpoint:** `POST /api/sendotp`
 
 ```json
 {
@@ -144,9 +169,11 @@ A structured API for managing **project creation, deletion, authentication (sign
 }
 ```
 
-### 2️⃣ Send Message
+---
 
-**Endpoint:** `/api/SendMessage`
+### ✉️ Send Message
+
+**Endpoint:** `POST /api/sendmessage`
 
 ```json
 {
@@ -154,16 +181,18 @@ A structured API for managing **project creation, deletion, authentication (sign
     "ProjectID": "YOUR_PROJECT_ID",
     "EmailInfo": {
       "UserEmail": "user@example.com",
-      "Subject": "Subject of the Message",
+      "Subject": "Message Subject",
       "Para": "This is a test message from the project."
     }
   }
 }
 ```
 
-### 3️⃣ Verify OTP
+---
 
-**Endpoint:** `/api/CheckOTP`
+### ✔️ Verify OTP
+
+**Endpoint:** `POST /api/checkotp`
 
 ```json
 {
@@ -175,56 +204,46 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ## 🗂️ Data Management
 
-### Insert Data
+### ➕ Insert Data
 
-**Endpoint:** `/api/InsertData`
+**Endpoint:** `POST /api/insertdata`
 
 ```json
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
-    "Token": "YOUR_JWT_TOKEN_HERE",
+    "Token": "YOUR_JWT_TOKEN",
     "Data": "Hello, I am a demo data."
   }
 }
 ```
 
-### Delete Data
+---
 
-**Endpoint:** `/api/DeleteData`
+### 📥 Retrieve Data
+
+**Endpoint:** `POST /api/retrivedata`
 
 ```json
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
-    "Token": "YOUR_JWT_TOKEN_HERE",
-    "Data_id": "YOUR_DATA_ID"
+    "Token": "YOUR_JWT_TOKEN"
   }
 }
 ```
 
-### Retrieve Data
+---
 
-**Endpoint:** `/api/RetriveData`
+### ✏️ Update Data
 
-```json
-{
-  "Options": {
-    "ProjectID": "YOUR_PROJECT_ID",
-    "Token": "YOUR_JWT_TOKEN_HERE"
-  }
-}
-```
-
-### Update Data
-
-**Endpoint:** `/api/UpdateData`
+**Endpoint:** `PUT /api/updatedata`
 
 ```json
 {
   "Options": {
     "ProjectID": "YOUR_PROJECT_ID",
-    "Token": "YOUR_JWT_TOKEN_HERE",
+    "Token": "YOUR_JWT_TOKEN",
     "Data_id": "YOUR_DATA_ID",
     "Data": "Hello, I am a new data."
   }
@@ -233,20 +252,45 @@ A structured API for managing **project creation, deletion, authentication (sign
 
 ---
 
-### 🛠️ Notes
+### 🗑️ Delete Data
 
-✅ Replace placeholders such as `YOUR_PROJECT_ID`, `user@example.com`, and `YOUR_JWT_TOKEN_HERE` with your actual values during implementation.
+**Endpoint:** `DELETE /api/deletedata`
 
-✅ You will receive your `PROJECT_ID` when you create a project and your `JWT_Token` upon successful signup or login.
-
-✅ Use a consistent `ProjectID` across your requests to align with your project environment.
-
-✅ Supports **scalable SaaS authentication, email handling, and data management** with flexible extra fields for rapid MVP and product launches.
-
-✅ The `Data` field can be any JSON-compatible type (array, object, string, number) but does not support files.
-
-✅ Each data entry generates a unique `Data_id` for targeted operations.
-
+```json
+{
+  "Options": {
+    "ProjectID": "YOUR_PROJECT_ID",
+    "Token": "YOUR_JWT_TOKEN",
+    "Data_id": "YOUR_DATA_ID"
+  }
+}
 ```
 
-```
+---
+
+## 🛠️ Notes
+
+- Replace placeholders like `YOUR_PROJECT_ID` and `YOUR_JWT_TOKEN` with actual values
+- `ProjectID` is generated during project creation
+- JWT token is returned after successful signup or login
+- Supports all JSON-compatible data types (except files)
+- Each data entry generates a unique `Data_id`
+
+---
+
+## 🎯 Use Cases
+
+- SaaS authentication service
+- Startup MVP backend
+- Backend-as-a-Service (BaaS)
+- Multi-project authentication platform
+
+---
+
+## 🚧 Project Status
+
+This project is under active development.
+
+---
+
+💡 **This API is built to save development time and help teams focus on building products instead of backend boilerplate.**

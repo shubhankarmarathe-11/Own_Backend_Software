@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 const ResetPasswordRoute = express.Router();
 
 ResetPasswordRoute.post(
-  "/api/ResetPassword",
+  "/api/resetpassword",
   VerifyUserToken,
   async (req, res) => {
     try {
@@ -33,7 +33,7 @@ ResetPasswordRoute.post(
   }
 );
 
-ResetPasswordRoute.post("/ForgetPassword", async (req, res) => {
+ResetPasswordRoute.post("/forgetpassword", async (req, res) => {
   try {
     let { ProjectID, NewPassword, EmailID } = req.body;
 

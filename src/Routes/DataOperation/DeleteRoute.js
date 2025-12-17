@@ -4,7 +4,7 @@ import { UserDataInformation } from "../../Schemas/UserDataInformation.js";
 
 const DeleteDataRoute = express.Router();
 
-DeleteDataRoute.post("/api/DeleteData", VerifyUserToken, async (req, res) => {
+DeleteDataRoute.post("/api/deletedata", VerifyUserToken, async (req, res) => {
   try {
     let { id } = req;
     let { Data_id } = req.body;

@@ -53,7 +53,7 @@ async function VerifyPassword(req, res, next) {
 }
 
 LoginRoute.post(
-  "/api/Login",
+  "/api/login",
   handleInputs,
   VerifyPassword,
   async (req, res) => {

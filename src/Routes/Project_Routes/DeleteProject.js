@@ -5,7 +5,7 @@ import { UserDataInformation } from "../../Schemas/UserDataInformation.js";
 
 const DeleteProjectRoute = express.Router();
 
-DeleteProjectRoute.post("/api/DeleteProject", async (req, res) => {
+DeleteProjectRoute.post("/api/deleteproject", async (req, res) => {
   try {
     let { ProjectID } = req.body;
 

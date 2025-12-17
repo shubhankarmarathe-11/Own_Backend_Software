@@ -7,7 +7,7 @@ import { VerifyUserToken } from "../../Middlewares/Auth.js";
 const RemoveAccountRoute = express.Router();
 
 RemoveAccountRoute.post(
-  "/api/RemoveAccount",
+  "/api/removeaccount",
   VerifyUserToken,
   async (req, res) => {
     try {

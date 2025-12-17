@@ -5,7 +5,7 @@ import { EncryptData } from "../../utils/encrypt.js";
 
 const UpdateDataRoute = express.Router();
 
-UpdateDataRoute.post("/api/UpdateData", VerifyUserToken, async (req, res) => {
+UpdateDataRoute.post("/api/updatedata", VerifyUserToken, async (req, res) => {
   try {
     let { id } = req;
     let { NewData, Data_id } = req.body;

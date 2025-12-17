@@ -21,7 +21,7 @@ async function CheckForProjectName(req, res, next) {
 }
 
 CreateProject.post(
-  "/api/CreateProject",
+  "/api/createproject",
   CheckForProjectName,
   async (req, res) => {
     try {
@@ -46,7 +46,7 @@ CreateProject.post(
 );
 
 //  Get ProjectID Details
-CreateProject.post("/api/GetProjectID", async (req, res) => {
+CreateProject.post("/api/getprojectid", async (req, res) => {
   try {
     let { ProjectName } = req.body;
 
