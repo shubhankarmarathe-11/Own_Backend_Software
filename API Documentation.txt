@@ -1,0 +1,113 @@
+
+This is module wise Documentation
+
+Global Route's:
+    GET METHODS:
+        - /api/istokenvalid:
+            - Returns:
+                - status:201, response:True -> if token is valid or active
+                - status:401, response:False -> if token is invalid or expired
+                - status:400, response: please try again -> if the there is error in try block
+    POST METHODS:
+        - /api/destroycookie:
+            - Returns:
+                - status:201, response:True -> if cookie is clear
+                - status:400, response: please try again -> if the there is error in try block
+    
+
+Matser Auth:
+    GET METHODS:
+
+    POST METHODS:
+        - /api/master/register:
+            - Input:
+                Data:{username:string,email:string,number:string,password:string}
+
+            - Returns:
+                - status:201, response: user created -> with cookie creation.
+
+                - status:406, response: please enter valid email -> for wrong email format.
+                - status:406, response: Number must be 10 digits or without country code -> for wrong number format.
+                - status:406, response: password length must be greater than 8 characters -> for wrong password length.
+
+                - status:409, response: user exist -> If Email is Same.
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/master/login:
+            - Input:
+                Data:{email:string,password:string}
+
+            - Returns:
+                - status:201, response: user logged in -> with cookie creation.
+
+                - status:406, response: please enter valid email -> for wrong email format.
+                - status:406, response: password length must be greater than 8 characters -> for wrong password length.
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/master/logout:
+            - Returns:
+                - status:201, response: user logged out -> cookie is cleared.
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/master/changedetails:
+            - Input:
+                Data:{username:string,email:string,number:string,password:string}
+
+            - Returns:
+                - status:201, response: details changed successfully -> returns to login page beacuse cookie is cleared.
+
+                - status:406, response: password length must be greater than 8 characters -> for wrong new password length.
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/master/forgetpassword:
+            - Input:
+                Data:{email:string}
+            
+            - Returns:
+                - status:201, response: email sent successfully -> if email successfully sent on register email.
+
+                - status:406, response: if user found -> if email is not register.
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+            After Email sent
+
+            - Input:
+                Data:{otp:string,newpassword:string}
+
+            - Returns:
+                - status:201, response: password changed successfully -> if otp is correct and password changed.
+
+                - status:401, response: otp is wrong -> if wrong.
+
+                - status:400, response: please try again -> if the there is error in try block.
+            
+
+
+User DashBoard:
+    GET METHODS:
+        - /api/master/getyourprojects:
+            - Input:
+                cookie sent with axios
+            
+            - Returns:
+                - status:201, response: Data:[] -> sends array with _id, name / empty if no projects linked.
+
+                - status:400, response: please try again -> if the there is error in try block.
+    
+    POST METHODS:
+        - /api/master/createproject:
+            - Input:
+                Data:{}
+            
+            - Returns:
+                - status:201, response: new project created -> if project document is created in db.
+
+                - status:406, response: please select another project name -> sents if same user have same named project. 
+
+                - status:400, response: please try again -> if the there is error in try block.
+
