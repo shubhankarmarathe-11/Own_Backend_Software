@@ -17,10 +17,4 @@ Designed to help developers quickly integrate **ready-made backend features** in
 
 ---
 
-# 🚧 Under Redevelopment
-
-This project is currently under redevelopment.
-The codebase is being restructured into a modular architecture.
-Features and documentation may change during this phase.
-
 💡 **This API is built to save development time and help teams focus on building products instead of backend boilerplate.**

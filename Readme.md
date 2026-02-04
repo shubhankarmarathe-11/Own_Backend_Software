@@ -287,9 +287,13 @@ Designed to help developers quickly integrate **ready-made backend features** in
 
 ---
 
-## 🚧 Project Status
+# 🚧 Project Status -
 
-This project is under active development.
+## 🚧 Under Redevelopment
+
+This project is currently under redevelopment.
+The codebase is being restructured into a modular architecture.
+Features and documentation may change during this phase.
 
 ---
 
