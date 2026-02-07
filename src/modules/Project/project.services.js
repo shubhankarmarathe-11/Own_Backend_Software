@@ -3,6 +3,10 @@ import {
   AddProjectId,
   RemoveProjectId,
 } from "../MasterAuth/master_auth.services.js";
+import {
+  CreateauthModel,
+  DeleteauthModel,
+} from "../Project_Auth/project.auth.services.js";
 
 const RegisterNewProject = async ({ projectname, userid }) => {
   try {
@@ -30,6 +34,14 @@ const RegisterNewProject = async ({ projectname, userid }) => {
 
     await Register.save();
 
+    result = await CreateauthModel({ project_id: Register._id });
+
+    if (result == null) {
+      await ProjectModel.findByIdAndDelete(Register._id);
+      await ProjectServicesModel.findByIdAndDelete(RegisterService._id);
+      return null;
+    }
+
     return String(Register._id);
   } catch (error) {
     console.log(error);
@@ -50,10 +62,11 @@ const DeleteProjectWithId = async ({
       projectId: project_id,
     });
     if (deleteDocument == null) return null;
-    deleteDocument = await ProjectModel.findById(project_id);
-    deleteDocument = await ProjectServicesModel.findById(projectservice_id);
-
-    // authdata is remain to delete
+    deleteDocument = await DeleteauthModel({ project_id: project_id });
+    if (deleteDocument == null) return null;
+    deleteDocument = await ProjectModel.findByIdAndDelete(project_id);
+    deleteDocument =
+      await ProjectServicesModel.findByIdAndDelete(projectservice_id);
 
     return true;
   } catch (error) {

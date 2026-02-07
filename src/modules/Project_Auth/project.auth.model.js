@@ -6,13 +6,21 @@ const ProjectAuthSchema = new mongoose.Schema({
     ref: "ProjectModel",
   },
 
-  userAuthdata: [{}],
-
-  user_ProjectData: {
-    type: Schema.Types.ObjectId,
-    ref: "UserProjetcData",
-  },
+  userAuthdata: [
+    {
+      UserID: {
+        type: Schema.Types.ObjectId,
+        default: () => new mongoose.Types.ObjectId(),
+      },
+      data: {
+        type: Object,
+        default: {},
+      },
+    },
+  ],
 });
+
+ProjectAuthSchema.index({ "userAuthdata.UserID": 1 });
 
 const ProjectAuthModel = mongoose.model("ProjectAuth", ProjectAuthSchema);
 
