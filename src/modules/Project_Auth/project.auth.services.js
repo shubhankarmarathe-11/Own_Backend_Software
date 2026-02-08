@@ -5,6 +5,7 @@ import {
   DeleteMany,
 } from "../Project_Data/project.userdata.services.js";
 
+// services for model CURD
 const CreateauthModel = async ({ project_id }) => {
   try {
     let create = await ProjectAuthModel.create({ ProjectId: project_id });
@@ -31,6 +32,7 @@ const DeleteauthModel = async ({ project_id }) => {
   }
 };
 
+// services for User CURD
 const AddUser = async ({ project_id, userdata }) => {
   try {
     let FindAndUpdate = await ProjectAuthModel.findOneAndUpdate(
@@ -74,9 +76,6 @@ const UpdateUser = async ({ project_id, user_id, userdata }) => {
       { $set: { "userAuthdata.$.data": userdata } },
     );
     if (Find.matchedCount === 0) return null;
-    if (Find.modifiedCount === 0) return false;
-
-    await Find.save();
 
     return true;
   } catch (error) {
@@ -94,10 +93,6 @@ const RemoveUser = async ({ project_id, user_id }) => {
       },
       { $pull: { userAuthdata: { UserID: user_id } } },
     );
-    if (FindAndRemove.matchedCount === 0) return null;
-    if (FindAndRemove.modifiedCount === 0) return false;
-
-    await FindAndRemove.save();
 
     return true;
   } catch (error) {
@@ -106,4 +101,32 @@ const RemoveUser = async ({ project_id, user_id }) => {
   }
 };
 
-export { CreateauthModel, AddUser, RemoveUser, UpdateUser, DeleteauthModel };
+const FindUserAndAuth = async ({ project_id, userdata }) => {
+  try {
+    let keys = Object.keys(userdata);
+    let FindUserAuth = await ProjectAuthModel.findOne({
+      ProjectId: project_id,
+    });
+    if (FindUserAuth == null) return null;
+
+    const matchedUser = FindUserAuth.userAuthdata.find((user) =>
+      keys.every((key) => user.data[key] === userdata[key]),
+    );
+
+    if (!matchedUser) return null;
+
+    return matchedUser.UserID;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export {
+  CreateauthModel,
+  DeleteauthModel,
+  AddUser,
+  UpdateUser,
+  RemoveUser,
+  FindUserAndAuth,
+};

@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import { MasterRoute } from "./src/modules/MasterAuth/master_auth.routes.js";
 import { DashboardRoute } from "./src/modules/UserDashboard/userDashboard.route.js";
 import { ProjectRoute } from "./src/modules/Project/project.routes.js";
+import { ProjectAuthRoute } from "./src/modules/Project_Auth/project.auth.route.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 app.use("/api", MasterRoute);
 app.use("/api", DashboardRoute);
 app.use("/api", ProjectRoute);
+app.use("/api", ProjectAuthRoute);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

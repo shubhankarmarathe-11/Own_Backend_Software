@@ -3,12 +3,11 @@ import {
   RetriveData,
   UpdateData,
   DeleteData,
-} from "../Project_Data/project.userdata.services";
+} from "../Project_Data/project.userdata.services.js";
 
 const InsertDatacontroller = async (req, res) => {
   try {
-    let { project_id, user_id } = req.params;
-    let { data } = req.body;
+    let { project_id, user_id, data } = req.body;
     let insert = await InsertData({
       project_id: project_id,
       user_id: user_id,
@@ -25,7 +24,7 @@ const InsertDatacontroller = async (req, res) => {
 
 const RetriveDatacontroller = async (req, res) => {
   try {
-    let { project_id, user_id } = req.params;
+    let { project_id, user_id } = req.body;
     let retrive = await RetriveData({
       project_id: project_id,
       user_id: user_id,
@@ -41,7 +40,7 @@ const RetriveDatacontroller = async (req, res) => {
 
 const DeleteDatacontroller = async (req, res) => {
   try {
-    let { project_id, user_id, data_id } = req.params;
+    let { project_id, user_id, data_id } = req.body;
 
     let deletedata = await DeleteData({
       project_id: project_id,
@@ -59,8 +58,7 @@ const DeleteDatacontroller = async (req, res) => {
 
 const UpdateDatacontroller = async (req, res) => {
   try {
-    let { project_id, user_id, data_id } = req.params;
-    let { newdata } = req.body;
+    let { project_id, user_id, data_id, newdata } = req.body;
     let update = await UpdateData({
       project_id: project_id,
       user_id: user_id,

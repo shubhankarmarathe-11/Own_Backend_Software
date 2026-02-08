@@ -10,12 +10,14 @@ import {
 
 const RegisterNewProject = async ({ projectname, userid }) => {
   try {
+    let result = await ProjectModel.findOne({ ProjectName: projectname });
+    if (result != null) return false;
     let Register = await ProjectModel.create({
       ProjectName: String(projectname),
       UserID: String(userid),
     });
 
-    let result = await AddProjectId({
+    result = await AddProjectId({
       _id: userid,
       projectId: Register._id,
     });
@@ -32,8 +34,6 @@ const RegisterNewProject = async ({ projectname, userid }) => {
 
     Register.ProjectServices = await RegisterService._id;
 
-    await Register.save();
-
     result = await CreateauthModel({ project_id: Register._id });
 
     if (result == null) {
@@ -41,7 +41,8 @@ const RegisterNewProject = async ({ projectname, userid }) => {
       await ProjectServicesModel.findByIdAndDelete(RegisterService._id);
       return null;
     }
-
+    Register.ProjectAuth = await result;
+    await Register.save();
     return String(Register._id);
   } catch (error) {
     console.log(error);
@@ -49,11 +50,7 @@ const RegisterNewProject = async ({ projectname, userid }) => {
   }
 };
 
-const DeleteProjectWithId = async ({
-  project_id,
-  projectservice_id,
-  userId,
-}) => {
+const DeleteProjectWithId = async ({ project_id, userId }) => {
   try {
     let deleteDocument;
 
@@ -65,8 +62,11 @@ const DeleteProjectWithId = async ({
     deleteDocument = await DeleteauthModel({ project_id: project_id });
     if (deleteDocument == null) return null;
     deleteDocument = await ProjectModel.findByIdAndDelete(project_id);
-    deleteDocument =
-      await ProjectServicesModel.findByIdAndDelete(projectservice_id);
+    if (deleteDocument == null) return false;
+
+    deleteDocument = await ProjectServicesModel.deleteOne({
+      ProjectId: project_id,
+    });
 
     return true;
   } catch (error) {
