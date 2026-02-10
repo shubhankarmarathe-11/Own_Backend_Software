@@ -90,24 +90,176 @@ Matser Auth:
 
 User DashBoard:
     GET METHODS:
-        - /api/master/getyourprojects:
+        - /api/dash/profile:
             - Input:
                 cookie sent with axios
             
             - Returns:
-                - status:201, response: Data:[] -> sends array with _id, name / empty if no projects linked.
+                - status:201, response: Data:[] -> sends array of data of master user.
 
+                - status:401, response: token not found
+                - status:406, response: user not found
+                
+                - status:401, response: Token expired please login back
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/dash/projects:
+            - Input:
+                cookie sent with axios
+            
+            - Returns:
+                - status:201, response: Data:[] -> sends array of all linked projects with master user_id.
+
+                - status:401, response: token not found
+                - status:406, response: user not found
+                
+                - status:401, response: Token expired please login back
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - /api/dash/project/:_id:
+            - Input:
+                - cookie sent with axios
+                - _id of specific project in params
+            
+            - Returns:
+                - status:201, response: Data:[] -> sends array project details.
+
+                - status:401, response: token not found
+                - status:406, response: user not found
+                
+                - status:401, response: Token expired please login back
                 - status:400, response: please try again -> if the there is error in try block.
     
     POST METHODS:
-        - /api/master/createproject:
+        - /api/dash/createproject:
             - Input:
-                Data:{}
+                Data:{projectName:string}
             
             - Returns:
                 - status:201, response: new project created -> if project document is created in db.
 
+                - status:401, response: token not found
+
+                - status:401, response: Token expired please login back
+
                 - status:406, response: please select another project name -> sents if same user have same named project. 
 
                 - status:400, response: please try again -> if the there is error in try block.
+
+    DELETE METHODS:
+        - /api/dash/deleteproject:
+            - Input:
+                Data:{project_id:string}
+            
+            - Returns:
+                - status:201, response: new project created -> if project document is created in db.
+
+                - status:401, response: token not found
+
+                - status:401, response: Token expired please login back
+
+                - status:406, response: please select another project name -> sents if same user have same named project. 
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+
+In-Project Auth:
+    GET METHODS:
+    POST METHODS:
+        - api/project/auth/login:
+            - Input:
+                Data:
+
+            - Returns:
+                - status:201, response: userid of user
+
+                - status:406, response: user not found
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - api/project/auth/register:
+            - Input:
+                Data:{project_id:string, userData:object}
+                - userData include n number of fields with json object
+
+            - Returns:
+                - status:201, response: {message:"new user added",userid:userid}
+
+                - status:406, response: Data not found
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+    PATCH METHODS:
+         - api/project/auth/update:
+            - Input:
+                Data:{project_id, user_id:string, userData:object}
+                - userData changes in fields of existing fields  with json object
+
+            - Returns:
+                - status:201, response: user data updated
+
+                - status:406, response: user not found
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+    DELETE METHODS:
+         - api/project/auth/delete:
+            - Input:
+                Data:{project_id, user_id:string, }
+
+            - Returns:
+                - status:201, response: user removed
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+
+In-Project Data Operation:
+    GET METHODS:
+    POST METHODS:
+        - api/project/insert:
+            - Input:
+                Data:{project_id:string, user_id:string, data:any }
+                    - data: data can be of any type array/object/string/boolean/num , etc
+
+            - Returns:
+                - status:201, response: data inserted
+
+                - status:406, response: data insert failed
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - api/project/update:
+            - Input:
+                Data:{project_id:string, user_id:string, data_id, newdata:any }
+                    - data_id: id to find specific data
+                    - newdata: data can be of any type array/object/string/boolean/num , etc
+
+            - Returns:
+                - status:201, response: data Updated
+
+                - status:406, response: data update failed
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+        - api/project/retrive:
+            - Input:
+                Data:{project_id:string, user_id:string }
+
+            - Returns:
+                - status:201, response: {data:array} -> array contain data 
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+    PATCH METHODS:
+    DELETE METHODS:
+         - api/project/delete:
+            - Input:
+                Data:{project_id:string, user_id:string, data_id:string }
+
+            - Returns:
+                - status:201, response: data removed
+
+                - status:400, response: please try again -> if the there is error in try block.
+
+
 

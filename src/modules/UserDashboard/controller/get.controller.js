@@ -7,7 +7,7 @@ const GetProfileController = async (req, res) => {
     let token = req.cookies["host_auth"];
     console.log(token);
 
-    if (token == undefined) return res.status(401).send("please login back");
+    if (token == undefined) return res.status(401).send("token not found");
 
     let result;
     result = await VerifyToken(String(token));
