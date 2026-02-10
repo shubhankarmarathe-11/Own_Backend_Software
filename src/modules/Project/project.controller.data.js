@@ -17,13 +17,13 @@ const InsertDatacontroller = async (req, res) => {
     let encrypt = await EncryptData(JSON.stringify(data));
     console.log(encrypt);
 
-    if (encrypt == false) return res.status(406).send("please try again");
+    if (encrypt == false) return res.status(400).send("please try again");
     let insert = await InsertData({
       project_id: project_id,
       user_id: user_id,
       data: encrypt,
     });
-    if (insert == null) return res.status(406).send("please try again");
+    if (insert == null) return res.status(406).send("data insert failed");
 
     return res.status(201).send("Data inserted");
   } catch (error) {
@@ -39,12 +39,12 @@ const RetriveDatacontroller = async (req, res) => {
       project_id: project_id,
       user_id: user_id,
     });
-    if (retrive == null) return res.status(406).send("please try again");
+    if (retrive == null) return res.status(400).send("please try again");
     let arr = [];
     arr.length = 0;
     for (let val of retrive) {
       let decrypt = await DecryptData(val.data);
-      if (decrypt == false) return res.status(406).send("please try again");
+      if (decrypt == false) return res.status(400).send("please try again");
       let newdata = JSON.parse(decrypt);
       arr.push({ _id: val._id, Data_id: val.Data_Id, data: newdata });
     }
@@ -65,7 +65,7 @@ const DeleteDatacontroller = async (req, res) => {
       user_id: user_id,
       data_id: data_id,
     });
-    if (deletedata == null) return res.status(406).send("please try again");
+    if (deletedata == null) return res.status(400).send("please try again");
 
     return res.status(201).send("Data Removed");
   } catch (error) {
@@ -78,7 +78,7 @@ const UpdateDatacontroller = async (req, res) => {
   try {
     let { project_id, user_id, data_id, newdata } = req.body;
     let encrypt = await EncryptData(JSON.stringify(newdata));
-    if (encrypt == false) return res.status(406).send("please try again");
+    if (encrypt == false) return res.status(400).send("please try again");
     let update = await UpdateData({
       project_id: project_id,
       user_id: user_id,
@@ -86,7 +86,7 @@ const UpdateDatacontroller = async (req, res) => {
       updateddata: encrypt,
     });
 
-    if (update == null) return res.status(406).send("please try again");
+    if (update == null) return res.status(406).send("data update failed");
 
     return res.status(201).send("Data Updated");
   } catch (error) {
