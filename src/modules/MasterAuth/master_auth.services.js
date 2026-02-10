@@ -59,7 +59,7 @@ const GetUserWithid = async ({ _id }) => {
       Password: 0,
     }).populate("ProjectId", "ProjectName");
 
-    if (isUser == null) return null;
+    if (FindUser == null) return null;
 
     return FindUser;
   } catch (error) {

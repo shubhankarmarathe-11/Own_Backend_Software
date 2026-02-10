@@ -18,7 +18,7 @@ DashboardRoute.get("/dash/project/:_id", GetProjectDetailController);
 
 // Post Routes
 DashboardRoute.post("/dash/createproject", CreateProjectController);
-DashboardRoute.post("/dash/deleteproject", DeleteProjectController);
+DashboardRoute.delete("/dash/deleteproject", DeleteProjectController);
 
 DashboardRoute.post("/dash/editservices", async (req, res) => {});
 

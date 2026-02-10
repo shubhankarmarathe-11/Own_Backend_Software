@@ -5,13 +5,15 @@ import { GetProjectDetails } from "../../Project/project.services.js";
 const GetProfileController = async (req, res) => {
   try {
     let token = req.cookies["host_auth"];
+    console.log(token);
+
     if (token == undefined) return res.status(401).send("please login back");
 
     let result;
     result = await VerifyToken(String(token));
     if (result.status == true) {
       req.userId = String(result.payload.id);
-      result = await GetUserWithid(String(result.payload.id));
+      result = await GetUserWithid({ _id: String(result.payload.id) });
       if (result == null) return res.status(406).send("user not found");
 
       return res.status(201).send({ profileData: result });
@@ -23,7 +25,7 @@ const GetProfileController = async (req, res) => {
   }
 };
 
-const GetAllProjects = async () => {
+const GetAllProjects = async (req, res) => {
   try {
     let token = req.cookies["host_auth"];
     if (token == undefined) return res.status(401).send("please login back");
@@ -32,7 +34,7 @@ const GetAllProjects = async () => {
     result = await VerifyToken(String(token));
     if (result.status == true) {
       req.userId = String(result.payload.id);
-      result = await GetUserWithid(String(result.payload.id));
+      result = await GetUserWithid({ _id: String(result.payload.id) });
       if (result == null) return res.status(406).send("user not found");
 
       return res.status(201).send({ Projects: result.ProjectId });
@@ -44,7 +46,7 @@ const GetAllProjects = async () => {
   }
 };
 
-const GetProjectDetailController = async () => {
+const GetProjectDetailController = async (req, res) => {
   try {
     let token = req.cookies["host_auth"];
     let { _id } = req.params;

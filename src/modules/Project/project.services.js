@@ -3,15 +3,21 @@ import {
   AddProjectId,
   RemoveProjectId,
 } from "../MasterAuth/master_auth.services.js";
+import {
+  CreateauthModel,
+  DeleteauthModel,
+} from "../Project_Auth/project.auth.services.js";
 
 const RegisterNewProject = async ({ projectname, userid }) => {
   try {
+    let result = await ProjectModel.findOne({ ProjectName: projectname });
+    if (result != null) return false;
     let Register = await ProjectModel.create({
       ProjectName: String(projectname),
       UserID: String(userid),
     });
 
-    let result = await AddProjectId({
+    result = await AddProjectId({
       _id: userid,
       projectId: Register._id,
     });
@@ -28,8 +34,15 @@ const RegisterNewProject = async ({ projectname, userid }) => {
 
     Register.ProjectServices = await RegisterService._id;
 
-    await Register.save();
+    result = await CreateauthModel({ project_id: Register._id });
 
+    if (result == null) {
+      await ProjectModel.findByIdAndDelete(Register._id);
+      await ProjectServicesModel.findByIdAndDelete(RegisterService._id);
+      return null;
+    }
+    Register.ProjectAuth = await result;
+    await Register.save();
     return String(Register._id);
   } catch (error) {
     console.log(error);
@@ -37,11 +50,7 @@ const RegisterNewProject = async ({ projectname, userid }) => {
   }
 };
 
-const DeleteProjectWithId = async ({
-  project_id,
-  projectservice_id,
-  userId,
-}) => {
+const DeleteProjectWithId = async ({ project_id, userId }) => {
   try {
     let deleteDocument;
 
@@ -50,10 +59,14 @@ const DeleteProjectWithId = async ({
       projectId: project_id,
     });
     if (deleteDocument == null) return null;
-    deleteDocument = await ProjectModel.findById(project_id);
-    deleteDocument = await ProjectServicesModel.findById(projectservice_id);
+    deleteDocument = await DeleteauthModel({ project_id: project_id });
+    if (deleteDocument == null) return null;
+    deleteDocument = await ProjectModel.findByIdAndDelete(project_id);
+    if (deleteDocument == null) return false;
 
-    // authdata is remain to delete
+    deleteDocument = await ProjectServicesModel.deleteOne({
+      ProjectId: project_id,
+    });
 
     return true;
   } catch (error) {
