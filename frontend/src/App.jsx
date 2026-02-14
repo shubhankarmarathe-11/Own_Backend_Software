@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   return (
@@ -28,6 +29,14 @@ function App() {
           element={
             <>
               <Register />
+            </>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <>
+              <Dashboard />
             </>
           }
         />

@@ -17,7 +17,7 @@ const Login = () => {
     } else {
       console.log(result);
 
-      navigate("/");
+      navigate("/dashboard");
     }
   }
 
