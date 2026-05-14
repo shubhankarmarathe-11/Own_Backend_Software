@@ -26,7 +26,7 @@ const CreateProjectController = async (req, res) => {
     return res.status(401).send("Token expired please login back");
   } catch (error) {
     console.log(error);
-    return res.status(201).send("please try again");
+    return res.status(400).send("please try again");
   }
 };
 
@@ -50,7 +50,7 @@ const DeleteProjectController = async (req, res) => {
     return res.status(401).send("Token expired please login back");
   } catch (error) {
     console.log(error);
-    return res.status(201).send("please try again");
+    return res.status(400).send("please try again");
   }
 };
 

@@ -7,9 +7,12 @@ import {
   SignupController,
   ChangeUserDetail,
   LogoutController,
+  IsLoggedIn,
 } from "./master_auth.controller.js";
 
 const MasterRoute = express.Router();
+
+MasterRoute.get("/master/istokenvalid", IsLoggedIn);
 
 // Login Route
 

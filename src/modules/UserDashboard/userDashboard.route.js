@@ -8,17 +8,30 @@ import {
   CreateProjectController,
   DeleteProjectController,
 } from "./controller/post.controller.js";
+import { VerifyUserToken } from "../../Middlewares/Auth.js";
 
 const DashboardRoute = express.Router();
 
 // Get Routes
-DashboardRoute.get("/dash/profile", GetProfileController);
-DashboardRoute.get("/dash/projects", GetAllProjects);
-DashboardRoute.get("/dash/project/:_id", GetProjectDetailController);
+DashboardRoute.get("/dash/profile", VerifyUserToken, GetProfileController);
+DashboardRoute.get("/dash/projects", VerifyUserToken, GetAllProjects);
+DashboardRoute.get(
+  "/dash/project/:_id",
+  VerifyUserToken,
+  GetProjectDetailController,
+);
 
 // Post Routes
-DashboardRoute.post("/dash/createproject", CreateProjectController);
-DashboardRoute.delete("/dash/deleteproject", DeleteProjectController);
+DashboardRoute.post(
+  "/dash/createproject",
+  VerifyUserToken,
+  CreateProjectController,
+);
+DashboardRoute.delete(
+  "/dash/deleteproject",
+  VerifyUserToken,
+  DeleteProjectController,
+);
 
 DashboardRoute.post("/dash/editservices", async (req, res) => {});
 

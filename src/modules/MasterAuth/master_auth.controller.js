@@ -3,8 +3,28 @@ import {
   RegisterUser,
   ValidateCred,
   FindUserAndUpdate,
+  GetUserWithid,
 } from "./master_auth.services.js";
 import { BlaklistTokenonLogout, VerifyToken } from "../../utils/jwt.js";
+
+const IsLoggedIn = async (req, res) => {
+  try {
+    let token = req.cookies["host_auth"];
+    if (token == undefined) return res.status(401).send("please login back");
+
+    let result;
+    result = await VerifyToken(String(token));
+    if (result.status == true) {
+      result = await GetUserWithid({ _id: result.payload.id });
+      if (result == null) res.status(406).send("User Not Found");
+      return res.status(201).send("User Logged In");
+    }
+
+    return res.status(401).send("Token expired please login back");
+  } catch (error) {
+    return res.status(400).send("please try again");
+  }
+};
 
 //login
 
@@ -128,4 +148,5 @@ export {
   LogoutController,
   ForgotController,
   ChangeUserDetail,
+  IsLoggedIn,
 };
