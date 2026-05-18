@@ -7,11 +7,15 @@ import {
   DeleteprojectController,
   FetchprojectsController,
   FetchprojectDetailController,
+  FetchProjectUserDetails,
 } from "./project.controller.ts";
 
 import { ValidateProjectId } from "./project.middleware.ts";
+import { ValidatePUserId } from "../auth/projectuser.auth.middleware.ts";
 
 const ProjectRoute = express.Router();
+
+// ── Static routes first (must come before dynamic /:param routes) ──
 
 ProjectRoute.get(
   "/project/getprojects",
@@ -42,5 +46,7 @@ ProjectRoute.delete(
   ValidateProjectId,
   DeleteprojectController,
 );
+
+ProjectRoute.get("/project/:PuserId", FetchProjectUserDetails);
 
 export { ProjectRoute };

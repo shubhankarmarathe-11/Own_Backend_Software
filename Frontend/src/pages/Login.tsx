@@ -3,17 +3,20 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { api } from '../lib/api';
 import { Button } from '../components/ui/button';
+import { useAuthStore } from '../lib/store';
 
 export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const setLoggedIn = useAuthStore((s) => s.setLoggedIn);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await api.post('/master/login', { email, password });
+      setLoggedIn(true);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data || 'Login failed');
@@ -23,6 +26,7 @@ export function Login() {
   const handleGoogleSuccess = async (credentialResponse: any) => {
     try {
       await api.post('/master/oauth', { google_token: credentialResponse.credential });
+      setLoggedIn(true);
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data || 'Google authentication failed');
