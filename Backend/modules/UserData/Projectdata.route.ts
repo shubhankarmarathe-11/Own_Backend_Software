@@ -10,7 +10,7 @@ import {
 const ProjectUserDataRoute = express.Router();
 
 ProjectUserDataRoute.post(
-  "/projectdata/add/:projectId/:PuserId",
+  "/projectdata/add/:projectId/",
   ValidateProjectID,
   ValidatePUserId,
   ValidateInputData,
@@ -18,7 +18,7 @@ ProjectUserDataRoute.post(
 );
 
 ProjectUserDataRoute.get(
-  "/projectdata/retrive/:projectId/:PuserId",
+  "/projectdata/retrive/:projectId/",
   ValidateProjectID,
   ValidatePUserId,
   RetriveUserDataController,

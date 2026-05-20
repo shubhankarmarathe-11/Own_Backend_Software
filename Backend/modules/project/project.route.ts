@@ -47,6 +47,6 @@ ProjectRoute.delete(
   DeleteprojectController,
 );
 
-ProjectRoute.get("/project/:PuserId", FetchProjectUserDetails);
+ProjectRoute.post("/project/fetchprojectuser", FetchProjectUserDetails);
 
 export { ProjectRoute };

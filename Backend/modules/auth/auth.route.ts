@@ -30,7 +30,7 @@ ProjectAuthRoute.post(
 );
 
 ProjectAuthRoute.patch(
-  "/projectauth/update/:projectId/:PuserId",
+  "/projectauth/update/:projectId/",
   ValidateProjectID,
   ValidatePUserId,
   ValidateAuthData,
@@ -38,7 +38,7 @@ ProjectAuthRoute.patch(
 );
 
 ProjectAuthRoute.delete(
-  "/projectauth/delete/:projectId/:PuserId",
+  "/projectauth/delete/:projectId/",
   ValidateProjectID,
   ValidatePUserId,
   DeleteProjectUserController,

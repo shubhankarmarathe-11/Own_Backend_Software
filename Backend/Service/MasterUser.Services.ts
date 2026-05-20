@@ -100,9 +100,7 @@ async function SignupUserService({ name, email, password }: SignupUserType) {
 }
 
 async function DeleteUserService(userId: string) {
-  const client = new MongoClient(
-    "mongodb://localhost:27017/BAAS?replicaSet=rs0&retryWrites=false",
-  );
+  const client = new MongoClient(`${process.env.MongoUri}`);
 
   try {
     await client.connect();
@@ -145,10 +143,26 @@ async function DeleteUserService(userId: string) {
   }
 }
 
+async function UpdateUserOauthService(email: string, obj: object) {
+  try {
+    const Update = await MasterUserModel.updateOne({ Email: email }, obj);
+
+    if (Update.acknowledged == false) return 500;
+
+    if (Update.matchedCount == 1 && Update.modifiedCount == 1) return 200;
+
+    return 404;
+  } catch (error) {
+    console.error(error);
+    return 500;
+  }
+}
+
 export {
   isUserExist,
   CreateUser,
   LoginUserService,
   SignupUserService,
   DeleteUserService,
+  UpdateUserOauthService,
 };

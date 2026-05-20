@@ -5,6 +5,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Dashboard } from './pages/Dashboard';
 import { ProjectDetails } from './pages/ProjectDetails';
+import { ApiDocs } from './pages/ApiDocs';
 import { useAuthStore } from './lib/store';
 
 /** Redirects to /dashboard when already logged in */
@@ -42,6 +43,10 @@ function App() {
 
           <Route path="/project/:id" element={
             <ProtectedRoute><ProjectDetails /></ProtectedRoute>
+          } />
+
+          <Route path="/docs/:id" element={
+            <ProtectedRoute><ApiDocs /></ProtectedRoute>
           } />
 
           <Route path="*" element={<Navigate to="/" replace />} />

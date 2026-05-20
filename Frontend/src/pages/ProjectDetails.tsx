@@ -10,8 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import { ProjectApiDocs } from '../components/ProjectApiDocs';
-import { X, Search, Code, Shield, Key, ChevronLeft, Users, Clock, ArrowLeft } from 'lucide-react';
+import { X, Search, Code, Shield, Key, Users, ArrowLeft, BookOpen } from 'lucide-react';
 
 // ProjectUsers embedded in project doc only has UserId (= PuserId = ProjectUserModel._id) and publicKey
 interface ProjectUser {
@@ -386,7 +385,20 @@ export function ProjectDetails() {
           )}
         </div>
 
-        <ProjectApiDocs projectId={project._id} />
+        {/* API Docs Link */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-bold text-gray-900 mb-0.5">API Integration Docs</h3>
+            <p className="text-xs text-gray-400">Full reference for Auth, UserData, File Upload & OAuth endpoints.</p>
+          </div>
+          <Button
+            onClick={() => navigate(`/docs/${project._id}`)}
+            className="rounded-xl bg-black hover:bg-gray-800 text-white font-semibold gap-2 shadow-sm hover:-translate-y-0.5 active:translate-y-0 transition-all shrink-0"
+          >
+            <BookOpen className="h-4 w-4" />
+            View API Docs
+          </Button>
+        </div>
       </main>
 
       {selectedUser && (

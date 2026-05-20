@@ -1,5 +1,9 @@
 import type { Request, Response } from "express";
-import { isUserExist, CreateUser } from "../../Service/MasterUser.Services.ts";
+import {
+  isUserExist,
+  CreateUser,
+  UpdateUserOauthService,
+} from "../../Service/MasterUser.Services.ts";
 import { SignToken } from "../../utils/TokenFunction.ts";
 import { RedisCli } from "../../config/RedisConnection.ts";
 
@@ -11,7 +15,7 @@ const GoogleTokenController = async (req: Request, res: Response) => {
 
     const payload = TokenData.getPayload();
 
-    const { email } = payload;
+    const { email, picture, sub } = payload;
 
     let isExist: any;
     let userDetails: {};
@@ -32,6 +36,19 @@ const GoogleTokenController = async (req: Request, res: Response) => {
       if (isExist == 500)
         return res.status(500).send("server error please try again");
     }
+    if (isExist.GoogleId == "" || isExist.ProfileUrl == "") {
+      let { picture, sub } = payload;
+
+      const obj = { GoogleId: sub, ProfileUrl: picture };
+
+      const Updateforoauth = await UpdateUserOauthService(email, obj);
+
+      if (Updateforoauth == 500 || Updateforoauth == 404)
+        return res.status(500).send("server error please try again");
+    }
+
+    isExist.GoogleId = sub;
+    isExist.ProfileUrl = picture;
 
     userDetails = await isExist;
 

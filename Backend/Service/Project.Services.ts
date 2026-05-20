@@ -36,9 +36,7 @@ async function FetchProjectsDetailService(projectId: string) {
 }
 
 async function CreateProject({ userId, projectname }: CreateProjectType) {
-  const client = new MongoClient(
-    "mongodb://localhost:27017/BAAS?replicaSet=rs0&retryWrites=false",
-  );
+  const client = new MongoClient(`${process.env.MongoUri}`);
 
   try {
     await client.connect();

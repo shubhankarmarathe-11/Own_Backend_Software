@@ -18,7 +18,7 @@ app.use(
   cors({
     origin: isProduction ? "" : "http://localhost:5173/",
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: isProduction ? "" : "*",
+    allowedHeaders: isProduction ? ["Content-Type", "Authorization"] : "*",
     credentials: isProduction ? true : false,
   }),
 );

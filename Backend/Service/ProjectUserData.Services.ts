@@ -38,6 +38,8 @@ async function RetriveDataService(PuserId: string) {
 
     if (FetchuserData == null) return 404;
 
+    if (FetchuserData.Data == "") return "no data found";
+
     const decryptData = await crypto.privateDecrypt(
       FetchuserData.privateKey,
       Buffer.from(FetchuserData.Data, "base64"),

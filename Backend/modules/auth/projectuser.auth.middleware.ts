@@ -16,15 +16,13 @@ async function ValidateAuthData(
     if (!AuthData || Object.keys(AuthData).length == 0)
       return res.status(401).send("please enter proper authData object");
 
-    if (!Object.hasOwn(AuthData, "Identifiers"))
+    if (
+      !Object.hasOwn(AuthData, "Identifiers") ||
+      AuthData.Identifiers.length == 0
+    )
       return res
         .status(401)
         .send("authData object requires array of identifiers keys");
-
-    if (!Object.hasOwn(AuthData, "uniqueField"))
-      return res
-        .status(401)
-        .send("authData object requires at least one unique key array");
 
     if (Object.hasOwn(AuthData, "Email")) {
       if (!AUTH_REGEX.email.test(AuthData.Email))
@@ -72,7 +70,7 @@ async function ValidatePUserId(
   Next: NextFunction,
 ) {
   try {
-    let { PuserId } = req.params;
+    let { PuserId } = req.body;
 
     let Validate = await ValidatePUserIDService(String(PuserId));
 
@@ -102,7 +100,10 @@ async function ValidateLoginData(
     if (!LoginAuthData || Object.keys(LoginAuthData).length == 0)
       return res.status(401).send("please enter proper authData object");
 
-    if (!Object.hasOwn(LoginAuthData, "Identifiers"))
+    if (
+      !Object.hasOwn(LoginAuthData, "Identifiers") ||
+      LoginAuthData.Identifiers.length == 0
+    )
       return res
         .status(401)
         .send("authData object requires array of identifiers keys");

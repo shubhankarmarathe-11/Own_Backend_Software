@@ -20,6 +20,11 @@ const ProjectUserSchema = new mongoose.Schema(
       required: true,
       default: "",
     },
+    fileKeys: [
+      {
+        type: String,
+      },
+    ],
     publicKey: {
       type: String,
       required: true,

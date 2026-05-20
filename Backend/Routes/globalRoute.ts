@@ -6,6 +6,7 @@ import { MasterAuthRoute } from "./MasterAuthRoute.ts";
 import { ProjectRoute } from "../modules/project/project.route.ts";
 import { ProjectAuthRoute } from "../modules/auth/auth.route.ts";
 import { ProjectUserDataRoute } from "../modules/UserData/Projectdata.route.ts";
+import { FileRouter } from "../modules/upload/upload.route.ts";
 
 const globalRoute = express.Router();
 
@@ -13,6 +14,7 @@ globalRoute.use(MasterAuthRoute);
 globalRoute.use(ProjectRoute);
 globalRoute.use(ProjectAuthRoute);
 globalRoute.use(ProjectUserDataRoute);
+globalRoute.use(FileRouter);
 
 globalRoute.get(
   "/global",

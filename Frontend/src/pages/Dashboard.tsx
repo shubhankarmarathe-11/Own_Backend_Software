@@ -357,26 +357,6 @@ export function Dashboard() {
                 <div className="text-green-400 font-semibold">{data || 'Connected'}</div>
               </div>
             </div>
-
-            {/* Quick Reference */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-base font-bold text-gray-900 mb-3">Quick Reference</h2>
-              <div className="space-y-2.5">
-                {[
-                  { method: 'POST', path: '/project/createproject', color: 'bg-green-50 text-green-700 border-green-100' },
-                  { method: 'GET', path: '/project/getprojects', color: 'bg-blue-50 text-blue-700 border-blue-100' },
-                  { method: 'GET', path: '/project/:PuserId', color: 'bg-blue-50 text-blue-700 border-blue-100' },
-                  { method: 'DELETE', path: '/project/deleteproject/:id', color: 'bg-red-50 text-red-700 border-red-100' },
-                ].map((ep, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <span className={`text-xs font-bold px-1.5 py-0.5 rounded border shrink-0 ${ep.color}`}>
-                      {ep.method}
-                    </span>
-                    <code className="text-xs text-gray-500 font-mono truncate">{ep.path}</code>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
 

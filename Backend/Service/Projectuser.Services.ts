@@ -52,11 +52,25 @@ async function ValidateLoginCredService({ authdata, Identifiers }: Logintype) {
 }
 
 async function UpdatePUserService(
-  projectId: string,
   PuserId: string,
   AuthData: object,
+  PrevIdentifiers: string[],
 ) {
   try {
+    let query: any = {};
+    for (const key of PrevIdentifiers) {
+      if (key == "Password") continue;
+      query[`AuthData.${key}`] = (AuthData as any)[`${key}`];
+    }
+
+    if (Object.keys(query).length === 0) {
+      return { status: 401, mess: "please provide a valid identifier" };
+    }
+
+    let Fetch = await ProjectUserModel.findOne(query);
+    if (Fetch != null)
+      return { status: 404, mess: "user found please use different username" };
+
     let Update = await ProjectUserModel.updateOne(
       { _id: new ObjectId(PuserId) },
       { $set: { AuthData: AuthData } },
@@ -65,6 +79,8 @@ async function UpdatePUserService(
     if (Update.acknowledged == false) return 500;
 
     if (Update.matchedCount == 1 && Update.modifiedCount == 1) return 200;
+
+    return 500;
   } catch (error) {
     console.error(error);
     return 500;
@@ -123,9 +139,7 @@ async function CreateProjectUser({
   if (Fetch != null)
     return { status: 404, mess: `please use different unique field data` };
 
-  const client = new MongoClient(
-    "mongodb://localhost:27017/BAAS?replicaSet=rs0&retryWrites=false",
-  );
+  const client = new MongoClient(`${process.env.MongoUri}`);
 
   try {
     await client.connect();
@@ -180,9 +194,7 @@ async function CreateProjectUser({
 }
 
 async function DeleteProjectuser(projectId: string, PuserId: string) {
-  const client = new MongoClient(
-    "mongodb://localhost:27017/BAAS?replicaSet=rs0&retryWrites=false",
-  );
+  const client = new MongoClient(`${process.env.MongoUri}`);
 
   try {
     await client.connect();

@@ -83,9 +83,7 @@ async function DeleteprojectController(req: Request, res: Response) {
 
 async function FetchProjectUserDetails(req: Request, res: Response) {
   try {
-    let { PuserId } = req.params;
-    console.log(PuserId);
-    
+    let { PuserId } = req.body;
 
     let FetchUser = await ValidatePUserIDService(String(PuserId));
 
@@ -94,7 +92,7 @@ async function FetchProjectUserDetails(req: Request, res: Response) {
 
     if (FetchUser == 404) return res.status(401).send("userId is not valid");
 
-    return res.status(200).send({data: FetchUser});
+    return res.status(200).send({ data: FetchUser });
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error please try again");
