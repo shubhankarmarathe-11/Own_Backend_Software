@@ -1,6 +1,6 @@
 # ⚡ OwnBackend — Backend as a Service (BaaS)
 
-**Live:** `<!-- ADD YOUR SERVER URL HERE -->`
+**Live:** `<!-- https://minibaas.shubhankarmarathe.online -->`
 
 A self-built **Backend as a Service (BaaS)** — give your app a full backend in minutes. Project-based auth, file storage, user data management, and Google OAuth, all behind a single project ID.
 
