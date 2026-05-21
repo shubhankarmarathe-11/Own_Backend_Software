@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { api } from '../lib/api';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { api } from "../lib/api";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
 import {
   Table,
   TableBody,
@@ -11,8 +11,18 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import { FolderOpen, Plus, Search, Trash2, ArrowRight, Users, Calendar, Activity, LogOut } from 'lucide-react';
-import { useAuthStore } from '../lib/store';
+import {
+  FolderOpen,
+  Plus,
+  Search,
+  Trash2,
+  ArrowRight,
+  Users,
+  Calendar,
+  Activity,
+  LogOut,
+} from "lucide-react";
+import { useAuthStore } from "../lib/store";
 
 interface Project {
   _id: string;
@@ -23,18 +33,18 @@ interface Project {
 }
 
 export function Dashboard() {
-  const [data, setData] = useState<string>('');
+  const [data, setData] = useState<string>("");
   const [projects, setProjects] = useState<Project[]>([]);
-  const [newProjectName, setNewProjectName] = useState('');
+  const [newProjectName, setNewProjectName] = useState("");
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const setLoggedIn = useAuthStore((s) => s.setLoggedIn);
 
   const fetchProjects = async () => {
     try {
-      const res = await api.get('/project/getprojects');
+      const res = await api.get("/project/getprojects");
       if (res.data && res.data.data) {
         setProjects(res.data.data);
       } else {
@@ -48,7 +58,7 @@ export function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get('/global');
+        const res = await api.get("/global");
         setData(res.data);
         await fetchProjects();
       } catch (err) {
@@ -64,7 +74,7 @@ export function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await api.post('/master/logout');
+      await api.post("/master/logout");
     } catch (err) {
       console.error(err);
     } finally {
@@ -73,9 +83,14 @@ export function Dashboard() {
   };
 
   const handleDeleteAccount = async () => {
-    if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) return;
+    if (
+      !window.confirm(
+        "Are you sure you want to delete your account? This action cannot be undone.",
+      )
+    )
+      return;
     try {
-      await api.delete('/master/delete');
+      await api.delete("/master/delete");
       setLoggedIn(false);
     } catch (err) {
       console.error(err);
@@ -88,20 +103,26 @@ export function Dashboard() {
     if (!newProjectName.trim()) return;
     setCreating(true);
     try {
-      await api.post('/project/createproject', { projectName: newProjectName });
-      setNewProjectName('');
+      await api.post("/project/createproject", { projectName: newProjectName });
+      setNewProjectName("");
       await fetchProjects();
     } catch (err) {
       console.error(err);
+      if (err.status == 401)
+        alert("project exist. please use different project name");
       alert("Failed to create project");
     } finally {
       setCreating(false);
     }
   };
 
-  const handleDeleteProject = async (projectId: string, e: React.MouseEvent) => {
+  const handleDeleteProject = async (
+    projectId: string,
+    e: React.MouseEvent,
+  ) => {
     e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this project?")) return;
+    if (!window.confirm("Are you sure you want to delete this project?"))
+      return;
     try {
       await api.delete(`/project/deleteproject/${projectId}`);
       await fetchProjects();
@@ -111,18 +132,23 @@ export function Dashboard() {
     }
   };
 
-  const filteredProjects = projects.filter(p =>
-    p.Name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProjects = projects.filter((p) =>
+    p.Name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const totalUsers = projects.reduce((sum, p) => sum + (p.ProjectUsers?.length || 0), 0);
+  const totalUsers = projects.reduce(
+    (sum, p) => sum + (p.ProjectUsers?.length || 0),
+    0,
+  );
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50 text-gray-900 font-sans">
         <div className="flex flex-col items-center gap-4">
           <div className="h-10 w-10 rounded-full border-4 border-gray-200 border-t-black animate-spin shadow-sm"></div>
-          <span className="text-gray-500 font-medium">Loading your dashboard...</span>
+          <span className="text-gray-500 font-medium">
+            Loading your dashboard...
+          </span>
         </div>
       </div>
     );
@@ -137,12 +163,16 @@ export function Dashboard() {
             <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center text-white font-bold text-lg shadow-md">
               B
             </div>
-            <span className="text-lg font-bold tracking-tight text-gray-900">BAAS Platform</span>
+            <span className="text-lg font-bold tracking-tight text-gray-900">
+              BAAS Platform
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden sm:flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5">
               <Activity className="h-3.5 w-3.5 text-green-500" />
-              <span className="text-xs text-gray-500 font-mono">{data || 'connected'}</span>
+              <span className="text-xs text-gray-500 font-mono">
+                {data || "connected"}
+              </span>
             </div>
             <Button
               onClick={handleLogout}
@@ -158,40 +188,53 @@ export function Dashboard() {
       </header>
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-8">
-
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Dashboard</h1>
-          <p className="text-gray-500 mt-1 text-sm">Manage your projects and backend services.</p>
+          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
+            Dashboard
+          </h1>
+          <p className="text-gray-500 mt-1 text-sm">
+            Manage your projects and backend services.
+          </p>
         </div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Projects</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Total Projects
+              </p>
               <div className="h-8 w-8 bg-gray-50 rounded-lg flex items-center justify-center border border-gray-100">
                 <FolderOpen className="h-4 w-4 text-gray-500" />
               </div>
             </div>
-            <p className="text-3xl font-extrabold text-gray-900">{projects.length}</p>
+            <p className="text-3xl font-extrabold text-gray-900">
+              {projects.length}
+            </p>
             <p className="text-xs text-gray-400 mt-1">active projects</p>
           </div>
 
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Users</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Total Users
+              </p>
               <div className="h-8 w-8 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100">
                 <Users className="h-4 w-4 text-blue-500" />
               </div>
             </div>
-            <p className="text-3xl font-extrabold text-gray-900">{totalUsers}</p>
+            <p className="text-3xl font-extrabold text-gray-900">
+              {totalUsers}
+            </p>
             <p className="text-xs text-gray-400 mt-1">across all projects</p>
           </div>
 
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Last Activity</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Last Activity
+              </p>
               <div className="h-8 w-8 bg-green-50 rounded-lg flex items-center justify-center border border-green-100">
                 <Calendar className="h-4 w-4 text-green-500" />
               </div>
@@ -199,10 +242,11 @@ export function Dashboard() {
             <p className="text-lg font-bold text-gray-900 truncate">
               {projects.length > 0
                 ? new Date(
-                    Math.max(...projects.map(p => new Date(p.updatedAt).getTime()))
+                    Math.max(
+                      ...projects.map((p) => new Date(p.updatedAt).getTime()),
+                    ),
                   ).toLocaleDateString()
-                : '—'
-              }
+                : "—"}
             </p>
             <p className="text-xs text-gray-400 mt-1">most recent update</p>
           </div>
@@ -210,12 +254,13 @@ export function Dashboard() {
 
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
           {/* Projects Table — spans 2 cols */}
           <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-gray-900">Your Projects</h2>
+                <h2 className="text-lg font-bold text-gray-900">
+                  Your Projects
+                </h2>
                 {projects.length > 0 && (
                   <span className="bg-gray-100 text-gray-600 text-xs font-bold px-2.5 py-1 rounded-full">
                     {filteredProjects.length} of {projects.length}
@@ -228,7 +273,7 @@ export function Dashboard() {
                   <Input
                     placeholder="Search projects..."
                     value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9 rounded-xl border-gray-200 bg-gray-50 focus:bg-white text-sm h-9"
                   />
                 </div>
@@ -241,11 +286,13 @@ export function Dashboard() {
                   <FolderOpen className="h-6 w-6 text-gray-300" />
                 </div>
                 <p className="text-sm font-medium text-gray-500">
-                  {searchQuery ? 'No projects match your search.' : "You don't have any projects yet."}
+                  {searchQuery
+                    ? "No projects match your search."
+                    : "You don't have any projects yet."}
                 </p>
                 {searchQuery && (
                   <button
-                    onClick={() => setSearchQuery('')}
+                    onClick={() => setSearchQuery("")}
                     className="text-xs text-gray-400 hover:text-gray-600 mt-1 underline underline-offset-2"
                   >
                     Clear search
@@ -257,10 +304,18 @@ export function Dashboard() {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-gray-50/80 hover:bg-gray-50/80">
-                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Name</TableHead>
-                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Created</TableHead>
-                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Users</TableHead>
-                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Actions</TableHead>
+                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                        Name
+                      </TableHead>
+                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                        Created
+                      </TableHead>
+                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                        Users
+                      </TableHead>
+                      <TableHead className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">
+                        Actions
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -275,12 +330,21 @@ export function Dashboard() {
                             <div className="h-7 w-7 bg-gray-100 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors">
                               <FolderOpen className="h-3.5 w-3.5 text-gray-500 group-hover:text-blue-600 transition-colors" />
                             </div>
-                            <span className="font-semibold text-gray-800 text-sm">{project.Name}</span>
+                            <span className="font-semibold text-gray-800 text-sm">
+                              {project.Name}
+                            </span>
                           </div>
                         </TableCell>
                         <TableCell>
                           <span className="text-sm text-gray-500">
-                            {new Date(project.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                            {new Date(project.createdAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              },
+                            )}
                           </span>
                         </TableCell>
                         <TableCell>
@@ -294,7 +358,10 @@ export function Dashboard() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={(e) => { e.stopPropagation(); navigate(`/project/${project._id}`); }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(`/project/${project._id}`);
+                              }}
                               className="h-7 px-2.5 text-xs text-gray-500 hover:text-blue-700 hover:bg-blue-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
                             >
                               <ArrowRight className="h-3.5 w-3.5" />
@@ -302,7 +369,9 @@ export function Dashboard() {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={(e) => handleDeleteProject(project._id, e)}
+                              onClick={(e) =>
+                                handleDeleteProject(project._id, e)
+                              }
                               className="h-7 px-2.5 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-all"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -321,9 +390,16 @@ export function Dashboard() {
           <div className="space-y-6">
             {/* Create Project */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-base font-bold text-gray-900 mb-1">New Project</h2>
-              <p className="text-xs text-gray-400 mb-4">Create a new backend project to get started.</p>
-              <form onSubmit={handleCreateProject} className="flex flex-col gap-3">
+              <h2 className="text-base font-bold text-gray-900 mb-1">
+                New Project
+              </h2>
+              <p className="text-xs text-gray-400 mb-4">
+                Create a new backend project to get started.
+              </p>
+              <form
+                onSubmit={handleCreateProject}
+                className="flex flex-col gap-3"
+              >
                 <Input
                   placeholder="Project name..."
                   value={newProjectName}
@@ -341,20 +417,24 @@ export function Dashboard() {
                   ) : (
                     <Plus className="h-4 w-4" />
                   )}
-                  {creating ? 'Creating...' : 'Create Project'}
+                  {creating ? "Creating..." : "Create Project"}
                 </Button>
               </form>
             </div>
 
             {/* API Status */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-base font-bold text-gray-900 mb-4">API Status</h2>
+              <h2 className="text-base font-bold text-gray-900 mb-4">
+                API Status
+              </h2>
               <div className="bg-gray-950 rounded-xl p-4 font-mono text-xs text-gray-400 border border-gray-800">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_6px_rgba(34,197,94,0.7)]"></div>
                   <span className="text-gray-500">GET /api/global</span>
                 </div>
-                <div className="text-green-400 font-semibold">{data || 'Connected'}</div>
+                <div className="text-green-400 font-semibold">
+                  {data || "Connected"}
+                </div>
               </div>
             </div>
           </div>
@@ -365,8 +445,13 @@ export function Dashboard() {
           <div className="absolute top-0 left-0 w-1 h-full bg-red-400 rounded-l-2xl"></div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pl-3">
             <div>
-              <h2 className="text-sm font-bold text-red-600 mb-0.5">Danger Zone</h2>
-              <p className="text-xs text-gray-400">Permanently remove your account and all associated data. This cannot be undone.</p>
+              <h2 className="text-sm font-bold text-red-600 mb-0.5">
+                Danger Zone
+              </h2>
+              <p className="text-xs text-gray-400">
+                Permanently remove your account and all associated data. This
+                cannot be undone.
+              </p>
             </div>
             <Button
               onClick={handleDeleteAccount}

@@ -6,7 +6,7 @@ import {
 
 async function InsertUserDataController(req: Request, res: Response) {
   try {
-    let { PuserId } = req.body;
+    let PuserId = req.PuserId;
 
     const Insert = await InsertDataService({
       PuserId: String(PuserId),
@@ -27,7 +27,7 @@ async function InsertUserDataController(req: Request, res: Response) {
 
 async function RetriveUserDataController(req: Request, res: Response) {
   try {
-    let { PuserId } = req.body;
+    let PuserId = req.PuserId;
 
     const Retrive = await RetriveDataService(String(PuserId));
 

@@ -11,7 +11,6 @@ import {
 } from "./project.controller.ts";
 
 import { ValidateProjectId } from "./project.middleware.ts";
-import { ValidatePUserId } from "../auth/projectuser.auth.middleware.ts";
 
 const ProjectRoute = express.Router();
 
@@ -47,6 +46,11 @@ ProjectRoute.delete(
   DeleteprojectController,
 );
 
-ProjectRoute.post("/project/fetchprojectuser", FetchProjectUserDetails);
+ProjectRoute.post(
+  "/project/fetchprojectuser",
+  ValidateRefreshToken,
+  ValidateAccessToken,
+  FetchProjectUserDetails,
+);
 
 export { ProjectRoute };

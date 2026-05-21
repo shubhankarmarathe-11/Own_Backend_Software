@@ -16,6 +16,9 @@ async function CreateprojectController(req: Request, res: Response) {
       userId: String(req.userId),
     });
 
+    if (CreateAndAdd == 401)
+      return res.status(401).send("please use different projectname .");
+
     if (CreateAndAdd == 500)
       return res.status(500).send("server error please try again");
 

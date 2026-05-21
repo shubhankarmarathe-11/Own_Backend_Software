@@ -45,6 +45,10 @@ async function CreateProject({ userId, projectname }: CreateProjectType) {
     return 500;
   }
 
+  const FetchName = await ProjectModel.findOne({ Name: projectname });
+
+  if (FetchName != null) return 401;
+
   const db = client.db("BAAS");
 
   const Projects = db.collection("projectmodels");

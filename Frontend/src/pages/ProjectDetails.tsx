@@ -56,7 +56,7 @@ const UserDataModal = ({
       try {
         setFetching(true);
         // Use the new GET /project/:PuserId endpoint
-        const res = await api.get(`/project/${user.UserId}`);
+        const res = await api.post(`/project/fetchprojectuser`, { PuserId: user.UserId });
         // console.log(res.data.data);
         
         // The controller returns the Mongoose document directly via `return FetchUser`

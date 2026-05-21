@@ -13,6 +13,8 @@ import {
   LoginProjectUserController,
 } from "./projectuser.auth.controller.ts";
 
+import { ValidateProjectRefreshToken } from "../Token/Token.middleware.ts";
+
 const ProjectAuthRoute = express.Router();
 
 ProjectAuthRoute.post(
@@ -31,6 +33,7 @@ ProjectAuthRoute.post(
 
 ProjectAuthRoute.patch(
   "/projectauth/update/:projectId/",
+  ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
   ValidateAuthData,
@@ -39,6 +42,7 @@ ProjectAuthRoute.patch(
 
 ProjectAuthRoute.delete(
   "/projectauth/delete/:projectId/",
+  ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
   DeleteProjectUserController,

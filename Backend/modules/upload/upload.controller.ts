@@ -18,7 +18,7 @@ async function UploadFileController(req: Request, res: Response) {
       return res.status(500).send("server error please try again");
 
     const uploadService = await UploadFileService(
-      String(req.body.PuserId),
+      String(req.PuserId),
       Key,
     );
 
@@ -36,7 +36,7 @@ async function UploadFileController(req: Request, res: Response) {
 
 async function FetchAllFileKeysController(req: Request, res: Response) {
   try {
-    const FetchKeys = await FetchAllFilekeys(String(req.body.PuserId));
+    const FetchKeys = await FetchAllFilekeys(String(req.PuserId));
 
     if (FetchKeys == 500)
       return res.status(500).send("server error please try again");
@@ -71,7 +71,7 @@ async function DeleteFileController(req: Request, res: Response) {
       return res.status(500).send("server error please try again");
 
     const pullfromdb = await DeleteFileService(
-      String(req.body.PuserId),
+      String(req.PuserId),
       String(req.params.key),
     );
 

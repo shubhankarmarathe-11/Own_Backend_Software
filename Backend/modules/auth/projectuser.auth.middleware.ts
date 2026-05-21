@@ -70,7 +70,7 @@ async function ValidatePUserId(
   Next: NextFunction,
 ) {
   try {
-    let { PuserId } = req.body;
+    let PuserId = req.PuserId;
 
     let Validate = await ValidatePUserIDService(String(PuserId));
 

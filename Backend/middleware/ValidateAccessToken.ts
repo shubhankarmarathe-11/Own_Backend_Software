@@ -15,7 +15,7 @@ export default async function ValidateAccessToken(
     }
     let result = await VerifyToken(String(accessToken));
 
-    if (result.payload?.type != "access" || result == undefined) {
+    if (result == undefined || result.payload?.type != "access" ) {
       res.clearCookie("host_auth_access");
       res.clearCookie("host_auth_refresh");
       return res.status(401).json({ message: "Invalid token" });

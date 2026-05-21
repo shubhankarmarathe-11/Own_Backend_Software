@@ -6,11 +6,13 @@ import {
   InsertUserDataController,
   RetriveUserDataController,
 } from "./Projectdata.controller.ts";
+import { ValidateProjectRefreshToken } from "../Token/Token.middleware.ts";
 
 const ProjectUserDataRoute = express.Router();
 
 ProjectUserDataRoute.post(
   "/projectdata/add/:projectId/",
+  ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
   ValidateInputData,
@@ -19,6 +21,7 @@ ProjectUserDataRoute.post(
 
 ProjectUserDataRoute.get(
   "/projectdata/retrive/:projectId/",
+  ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
   RetriveUserDataController,

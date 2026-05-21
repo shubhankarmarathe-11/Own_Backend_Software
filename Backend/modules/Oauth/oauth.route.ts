@@ -5,6 +5,10 @@ import ValidateProjectID from "../../middleware/ValidateProjectID.ts";
 
 const OauthRoute = express.Router();
 
-OauthRoute.post("/oauth/validatetoken/:projectId", ValidateProjectID);
+OauthRoute.post(
+  "/oauth/validatetoken/:projectId",
+  ValidateProjectID,
+  ValidateToken,
+);
 
 export { OauthRoute };

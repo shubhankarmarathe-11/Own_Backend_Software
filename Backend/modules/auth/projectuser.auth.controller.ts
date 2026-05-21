@@ -5,13 +5,15 @@ import {
   DeleteProjectuser,
   ValidateLoginCredService,
 } from "../../Service/Projectuser.Services.ts";
-import JWT from "jsonwebtoken";
+import { PSignToken } from "../../utils/TokenFunction.ts";
 
 import bcrypt from "bcryptjs";
 
 async function InsertProjectUserController(req: Request, res: Response) {
   try {
     let { AuthData } = req.body;
+
+    const isProduction = process.env.NODE_ENV === "production";
 
     if (Object.hasOwn(AuthData, "Password")) {
       const salt = await bcrypt.genSalt(10);
@@ -31,7 +33,14 @@ async function InsertProjectUserController(req: Request, res: Response) {
     if (Insert == "Crypto error" || Insert == 500)
       return res.status(500).send("server error please try again");
 
-    return res.status(201).send({ res: `User Created. UserId - ${Insert}` });
+    let { Atoken, Rtoken } = await PSignToken(String(Insert));
+
+    if (Atoken == undefined || Rtoken == undefined)
+      return res.status(401).send("please try again");
+
+    return res.status(201).send({
+      res: `User Created. RefreshToken - ${Rtoken} \n AccessToken - ${Atoken}`,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).send("server error please try again");
@@ -41,7 +50,7 @@ async function InsertProjectUserController(req: Request, res: Response) {
 async function UpdateProjectUserController(req: Request, res: Response) {
   try {
     let { AuthData } = req.body;
-    let { PuserId } = req.body;
+    let PuserId = req.PuserId;
 
     if (
       !Object.hasOwn(AuthData, "PrevIdentifiers") ||
@@ -84,7 +93,7 @@ async function UpdateProjectUserController(req: Request, res: Response) {
 
 async function DeleteProjectUserController(req: Request, res: Response) {
   try {
-    let { PuserId } = req.body;
+    let PuserId = req.PuserId;
 
     const Delete = await DeleteProjectuser(
       String(req.projectId),
@@ -119,8 +128,12 @@ async function LoginProjectUserController(req: Request, res: Response) {
       return res.status(401).send(`${LoginCred.mess}`);
 
     if (LoginCred.status == 200) {
+      let { Atoken, Rtoken } = await PSignToken(String(LoginCred.mess));
+
+      if (Atoken == undefined || Rtoken == undefined)
+        return res.status(401).send("please try again");
       return res.status(201).send({
-        res: `User Found. Token - ${JWT.sign({ userId: LoginCred.mess }, String(req.params.projectId), { algorithm: "HS512" })}`,
+        res: `User Found. RefreshToken - ${Rtoken} \n AccessToken - ${Atoken}`,
       });
     }
   } catch (error) {

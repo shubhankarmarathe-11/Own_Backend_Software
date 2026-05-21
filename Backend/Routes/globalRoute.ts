@@ -7,6 +7,8 @@ import { ProjectRoute } from "../modules/project/project.route.ts";
 import { ProjectAuthRoute } from "../modules/auth/auth.route.ts";
 import { ProjectUserDataRoute } from "../modules/UserData/Projectdata.route.ts";
 import { FileRouter } from "../modules/upload/upload.route.ts";
+import { OauthRoute } from "../modules/Oauth/oauth.route.ts";
+import { ProjectTokenRoute } from "../modules/Token/Token.Route.ts";
 
 const globalRoute = express.Router();
 
@@ -15,6 +17,8 @@ globalRoute.use(ProjectRoute);
 globalRoute.use(ProjectAuthRoute);
 globalRoute.use(ProjectUserDataRoute);
 globalRoute.use(FileRouter);
+globalRoute.use(OauthRoute);
+globalRoute.use(ProjectTokenRoute);
 
 globalRoute.get(
   "/global",

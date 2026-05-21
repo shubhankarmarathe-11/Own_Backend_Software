@@ -54,6 +54,55 @@ const SignAToken = async (_id: string) => {
   }
 };
 
+const PSignToken = async (_id: string) => {
+  try {
+    const Atoken = await new SignJWT({ PuserId: _id, type: "access" })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("1h")
+      .setIssuer(process.env.JWT_ISSUER ? process.env.JWT_ISSUER : "")
+      .setAudience(process.env.JWT_AUDIENCE ? process.env.JWT_AUDIENCE : "")
+      .sign(JWT_SECRET);
+
+    const Rtoken = await new SignJWT({
+      PuserId: _id,
+      type: "refresh",
+    })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("7d")
+      .setIssuer(process.env.JWT_ISSUER ? process.env.JWT_ISSUER : "")
+      .setAudience(process.env.JWT_AUDIENCE ? process.env.JWT_AUDIENCE : "")
+      .sign(JWT_SECRET);
+
+    return { Atoken, Rtoken };
+  } catch (error) {
+    console.log("err-", error);
+    let Atoken = undefined;
+    let Rtoken = undefined;
+    return { Atoken, Rtoken };
+  }
+};
+
+const PSignAToken = async (_id: string) => {
+  try {
+    const Atoken = await new SignJWT({ PuserId: _id, type: "access" })
+      .setProtectedHeader({ alg: "HS256" })
+      .setIssuedAt()
+      .setExpirationTime("1h")
+      .setIssuer(process.env.JWT_ISSUER ? process.env.JWT_ISSUER : "")
+      .setAudience(process.env.JWT_AUDIENCE ? process.env.JWT_AUDIENCE : "")
+      .sign(JWT_SECRET);
+
+    return { Atoken };
+  } catch (error) {
+    console.log(error);
+    let Atoken = undefined;
+
+    return { Atoken };
+  }
+};
+
 const VerifyToken = async (Token: string) => {
   try {
     let { payload } = await jwtVerify(String(Token), JWT_SECRET, {
@@ -68,4 +117,4 @@ const VerifyToken = async (Token: string) => {
   }
 };
 
-export { SignToken, VerifyToken, SignAToken };
+export { SignToken, VerifyToken, SignAToken, PSignAToken, PSignToken };
