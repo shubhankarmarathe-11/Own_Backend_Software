@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { Button } from "../components/ui/button";
@@ -50,7 +50,7 @@ export function Dashboard() {
       } else {
         setProjects([]);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to fetch projects", err);
     }
   };
@@ -61,7 +61,7 @@ export function Dashboard() {
         const res = await api.get("/global");
         setData(res.data);
         await fetchProjects();
-      } catch (err) {
+      } catch (err: any) {
         // Interceptor already set isLoggedIn=false on 401 "Invalid token";
         // ProtectedRoute in App.tsx will redirect to /login automatically.
         setLoggedIn(false);
@@ -75,8 +75,7 @@ export function Dashboard() {
   const handleLogout = async () => {
     try {
       await api.post("/master/logout");
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
     } finally {
       setLoggedIn(false);
     }
@@ -92,8 +91,7 @@ export function Dashboard() {
     try {
       await api.delete("/master/delete");
       setLoggedIn(false);
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
       alert("Failed to delete account");
     }
   };
@@ -106,8 +104,7 @@ export function Dashboard() {
       await api.post("/project/createproject", { projectName: newProjectName });
       setNewProjectName("");
       await fetchProjects();
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
       if (err.status == 401)
         alert("project exist. please use different project name");
       alert("Failed to create project");
@@ -126,8 +123,7 @@ export function Dashboard() {
     try {
       await api.delete(`/project/deleteproject/${projectId}`);
       await fetchProjects();
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
       alert("Failed to delete project");
     }
   };

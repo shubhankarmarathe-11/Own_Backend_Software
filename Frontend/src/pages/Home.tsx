@@ -1,6 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from '../components/ui/button';
+import { Link } from "react-router-dom";
+import { Button } from "../components/ui/button";
 
 export function Home() {
   return (
@@ -10,10 +9,15 @@ export function Home() {
           <div className="h-8 w-8 rounded-lg bg-black flex items-center justify-center text-white font-bold text-xl">
             B
           </div>
-          <span className="text-xl font-bold tracking-tight">BAAS Platform</span>
+          <span className="text-xl font-bold tracking-tight">
+            BAAS Platform
+          </span>
         </div>
         <nav className="flex items-center gap-6">
-          <Link to="/login" className="text-sm font-medium text-gray-600 hover:text-black transition-colors">
+          <Link
+            to="/login"
+            className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+          >
             Sign In
           </Link>
           <Link to="/signup">
@@ -36,7 +40,9 @@ export function Home() {
           </span>
         </h1>
         <p className="text-lg lg:text-xl text-gray-500 mb-10 max-w-2xl">
-          Build, deploy, and scale your applications faster with our robust, secure, and modern backend infrastructure. Everything you need, right out of the box.
+          Build, deploy, and scale your applications faster with our robust,
+          secure, and modern backend infrastructure. Everything you need, right
+          out of the box.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -46,7 +52,10 @@ export function Home() {
             </Button>
           </Link>
           <Link to="/login">
-            <Button variant="outline" className="h-14 px-8 text-lg border-2 border-gray-200 hover:border-gray-900 hover:bg-gray-50 text-gray-900 rounded-full transition-all">
+            <Button
+              variant="outline"
+              className="h-14 px-8 text-lg border-2 border-gray-200 hover:border-gray-900 hover:bg-gray-50 text-gray-900 rounded-full transition-all"
+            >
               Go to Dashboard
             </Button>
           </Link>
@@ -54,14 +63,36 @@ export function Home() {
 
         <div className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-4">
           {[
-            { title: "Authentication", desc: "Secure Google OAuth and email/password login ready to use." },
-            { title: "Database Ready", desc: "Pre-configured database connections for instant data access." },
-            { title: "Scalable API", desc: "High-performance API endpoints that grow with your user base." }
+            {
+              title: "Authentication",
+              desc: "Secure Google OAuth and email/password login ready to use.",
+            },
+            {
+              title: "Database Ready",
+              desc: "Pre-configured database connections for instant data access.",
+            },
+            {
+              title: "Scalable API",
+              desc: "High-performance API endpoints that grow with your user base.",
+            },
           ].map((feature, i) => (
-            <div key={i} className="flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div
+              key={i}
+              className="flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+            >
               <div className="h-12 w-12 rounded-full bg-gray-50 flex items-center justify-center mb-4 border border-gray-100">
-                <svg className="w-6 h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                <svg
+                  className="w-6 h-6 text-black"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">{feature.title}</h3>

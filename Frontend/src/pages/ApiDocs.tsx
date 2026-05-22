@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Terminal,
@@ -228,8 +228,16 @@ export function ApiDocs() {
 
   // ── Token Cookie helper ──────────────────────────────────────────────────────
   const projectCookies = [
-    { name: "host_project_auth_refresh", description: "Refresh token received after login/register. Long-lived (7 days)." },
-    { name: "host_project_auth_access", description: "Access token. Short-lived (1 hour). Regenerate via /projecttoken/generate/accesstoken when expired." },
+    {
+      name: "host_project_auth_refresh",
+      description:
+        "Refresh token received after login/register. Long-lived (7 days).",
+    },
+    {
+      name: "host_project_auth_access",
+      description:
+        "Access token. Short-lived (1 hour). Regenerate via /projecttoken/generate/accesstoken when expired.",
+    },
   ];
 
   // ── Auth Endpoints ──────────────────────────────────────────────────────────
@@ -237,8 +245,14 @@ export function ApiDocs() {
     {
       method: "POST",
       path: `/projectauth/register/${projectId}`,
-      description: "Register a new user in your project. Returns refresh & access tokens as cookies.",
-      params: [{ name: ":projectId", description: "Your project ID (auto-filled above)" }],
+      description:
+        "Register a new user in your project. Returns refresh & access tokens as cookies.",
+      params: [
+        {
+          name: ":projectId",
+          description: "Your project ID (auto-filled above)",
+        },
+      ],
       requestBody: JSON.stringify(
         {
           AuthData: {
@@ -254,7 +268,9 @@ export function ApiDocs() {
         2,
       ),
       responseExample: JSON.stringify(
-        { res: "User Created. RefreshToken - <rtoken> \nAccessToken - <atoken>" },
+        {
+          res: "User Created. RefreshToken - <rtoken> \nAccessToken - <atoken>",
+        },
         null,
         2,
       ),
@@ -263,7 +279,8 @@ export function ApiDocs() {
     {
       method: "POST",
       path: `/projectauth/login/${projectId}`,
-      description: "Authenticate an existing project user. Returns refresh & access tokens.",
+      description:
+        "Authenticate an existing project user. Returns refresh & access tokens.",
       params: [{ name: ":projectId", description: "Your project ID" }],
       requestBody: JSON.stringify(
         {
@@ -286,7 +303,8 @@ export function ApiDocs() {
     {
       method: "PATCH",
       path: `/projectauth/update/${projectId}`,
-      description: "Update authentication details for an existing project user.",
+      description:
+        "Update authentication details for an existing project user.",
       params: [{ name: ":projectId", description: "Your project ID" }],
       headers: projectCookies,
       requestBody: JSON.stringify(
@@ -301,7 +319,11 @@ export function ApiDocs() {
         null,
         2,
       ),
-      responseExample: JSON.stringify({ res: "User Auth Data Updated" }, null, 2),
+      responseExample: JSON.stringify(
+        { res: "User Auth Data Updated" },
+        null,
+        2,
+      ),
       note: "PuserId is automatically extracted from the host_project_auth_refresh cookie — do NOT send it in the body. PrevIdentifiers (array) is required to identify old data.",
     },
     {
@@ -361,7 +383,8 @@ export function ApiDocs() {
     {
       method: "POST",
       path: `/uploadfile/upload/${projectId}`,
-      description: "Upload a file for a project user. Stored on S3 and a key is saved to the user record.",
+      description:
+        "Upload a file for a project user. Stored on S3 and a key is saved to the user record.",
       params: [{ name: ":projectId", description: "Your project ID" }],
       headers: projectCookies,
       requestBody: `// Send as multipart/form-data
@@ -412,7 +435,8 @@ fetch(\`${baseUrl}/uploadfile/upload/${projectId}\`, {
     {
       method: "DELETE",
       path: `/uploadfile/deletefile/${projectId}/:key`,
-      description: "Delete a file from S3 and remove its key from the user record.",
+      description:
+        "Delete a file from S3 and remove its key from the user record.",
       params: [
         { name: ":projectId", description: "Your project ID" },
         { name: ":key", description: "The file key to delete" },
@@ -504,15 +528,33 @@ fetch(\`${baseUrl}/uploadfile/upload/${projectId}\`, {
 
         {/* Token Auth Banner */}
         <div className="bg-purple-50 border border-purple-200 rounded-2xl p-5 shadow-sm mb-10 flex items-start gap-4">
-          <div className="h-9 w-9 bg-purple-100 rounded-xl flex items-center justify-center shrink-0 text-lg">🍪</div>
+          <div className="h-9 w-9 bg-purple-100 rounded-xl flex items-center justify-center shrink-0 text-lg">
+            🍪
+          </div>
           <div>
-            <p className="text-sm font-semibold text-purple-800 mb-1">Token-Based Authentication</p>
+            <p className="text-sm font-semibold text-purple-800 mb-1">
+              Token-Based Authentication
+            </p>
             <p className="text-xs text-purple-700 mb-2">
-              After <strong>register</strong> or <strong>login</strong>, set the returned tokens as cookies using <code className="bg-purple-100 px-1 rounded font-mono">credentials: 'include'</code> in fetch / <code className="bg-purple-100 px-1 rounded font-mono">withCredentials: true</code> in axios. The backend reads <strong>PuserId</strong> directly from the refresh token — you never send it manually.
+              After <strong>register</strong> or <strong>login</strong>, set the
+              returned tokens as cookies using{" "}
+              <code className="bg-purple-100 px-1 rounded font-mono">
+                credentials: 'include'
+              </code>{" "}
+              in fetch /{" "}
+              <code className="bg-purple-100 px-1 rounded font-mono">
+                withCredentials: true
+              </code>{" "}
+              in axios. The backend reads <strong>PuserId</strong> directly from
+              the refresh token — you never send it manually.
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
-              <code className="bg-white border border-purple-200 px-2 py-1 rounded-lg font-mono text-purple-700">host_project_auth_refresh</code>
-              <code className="bg-white border border-purple-200 px-2 py-1 rounded-lg font-mono text-purple-700">host_project_auth_access</code>
+              <code className="bg-white border border-purple-200 px-2 py-1 rounded-lg font-mono text-purple-700">
+                host_project_auth_refresh
+              </code>
+              <code className="bg-white border border-purple-200 px-2 py-1 rounded-lg font-mono text-purple-700">
+                host_project_auth_access
+              </code>
             </div>
           </div>
         </div>
@@ -595,7 +637,12 @@ fetch(\`${baseUrl}/uploadfile/upload/${projectId}\`, {
                   <Info className="h-4 w-4" /> Refresh your Access Token
                 </p>
                 <p className="text-xs text-indigo-800">
-                  The access token expires after <strong>1 hour</strong>. Send the <code className="bg-indigo-100 px-1 rounded font-mono">host_project_auth_refresh</code> cookie to generate a new access token without re-logging in.
+                  The access token expires after <strong>1 hour</strong>. Send
+                  the{" "}
+                  <code className="bg-indigo-100 px-1 rounded font-mono">
+                    host_project_auth_refresh
+                  </code>{" "}
+                  cookie to generate a new access token without re-logging in.
                 </p>
               </>
             }
@@ -603,8 +650,14 @@ fetch(\`${baseUrl}/uploadfile/upload/${projectId}\`, {
               {
                 method: "POST",
                 path: "/projecttoken/generate/accesstoken",
-                description: "Generate a new access token using the refresh token cookie.",
-                headers: [{ name: "host_project_auth_refresh", description: "Your long-lived refresh token (7 days)" }],
+                description:
+                  "Generate a new access token using the refresh token cookie.",
+                headers: [
+                  {
+                    name: "host_project_auth_refresh",
+                    description: "Your long-lived refresh token (7 days)",
+                  },
+                ],
                 responseExample: JSON.stringify({ success: true }, null, 2),
                 note: "Call this when you receive a 401 on any protected route. The new host_project_auth_access cookie is set automatically.",
               },
