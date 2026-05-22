@@ -2,9 +2,10 @@ node_modules/
 .env
 ngrok.yml
 Dockerfile
+dockerfile
+.dockerignore
 docker-compose.yml
 eas.json
-.dockerignore
 .vscode/
 .idea/
 *.log
