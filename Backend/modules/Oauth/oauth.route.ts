@@ -11,8 +11,6 @@ const OauthRoute = express.Router();
 
 OauthRoute.post(
   "/oauth/validatetoken/:projectId",
-  ValidateProjectAccessToken,
-  ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidateToken,
 );
