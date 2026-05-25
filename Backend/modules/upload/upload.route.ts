@@ -9,12 +9,16 @@ import {
   DeleteFileController,
   FetchAllFileKeysController,
 } from "./upload.controller.ts";
-import { ValidateProjectRefreshToken } from "../Token/Token.middleware.ts";
+import {
+  ValidateProjectRefreshToken,
+  ValidateProjectAccessToken,
+} from "../Token/Token.middleware.ts";
 
 const FileRouter = express.Router();
 
 FileRouter.post(
   "/uploadfile/upload/:projectId/",
+  ValidateProjectAccessToken,
   ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
@@ -23,6 +27,7 @@ FileRouter.post(
 );
 FileRouter.get(
   "/uploadfile/getfileurl/:projectId/:key",
+  ValidateProjectAccessToken,
   ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
@@ -30,6 +35,7 @@ FileRouter.get(
 );
 FileRouter.get(
   "/uploadfile/fetchall/:projectId/",
+  ValidateProjectAccessToken,
   ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
@@ -38,6 +44,7 @@ FileRouter.get(
 
 FileRouter.delete(
   "/uploadfile/deletefile/:projectId/:key",
+  ValidateProjectAccessToken,
   ValidateProjectRefreshToken,
   ValidateProjectID,
   ValidatePUserId,
